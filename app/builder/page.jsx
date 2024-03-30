@@ -117,7 +117,7 @@ const FormComponent = () => {
           <input
             type="text"
             id="name"
-            value={hiddenLayers[i] ? hiddenLayers[i].regularization.param : ''}
+            value={hiddenLayers[i]?.regularization ? hiddenLayers[i].regularization.param : ''}
             onChange={(e) => handleRegularizationParam(i, e.target.value)}
           />
         </div>

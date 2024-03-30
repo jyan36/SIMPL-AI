@@ -34,11 +34,11 @@ const FormComponent = () => {
   const [CNNnumberOfHiddenLayers, setCNNnumberOfHiddenLayers] = useState('');
   const [hL, setHL] = useState([]);
 
-  useEffect(() => {
-    let hi = {nodes: 0, activation: 'relu'};
-    setOutputLayer(hi);
-  }, []);
 
+  useEffect(() => {
+    let hi = ['Mean Square Error'];
+    setLossFunction(hi);
+  }, []);
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -88,6 +88,8 @@ const FormComponent = () => {
     setHiddenLayers(updatedChange);
   };
 
+  
+
   useEffect(() => {
     let thing = [];
     for (let i = 0; i < numberOfHiddenLayers; i++) {
@@ -136,7 +138,6 @@ const FormComponent = () => {
   }, [numberOfHiddenLayers, hiddenLayers]);
 
   const [kS, setKS] = useState();
-
   useEffect(() => {
     let thing = [];
     if (networkType == "cnn") {
@@ -184,6 +185,33 @@ const FormComponent = () => {
     }
     setIN(thing);
   }, [numberOfInputs, inputNames]);
+
+  const handleLossFunction = (index, selectedActivation) => {
+    const updatedLossFunction = [...lossFunction];
+    updatedLossFunction[index] = selectedActivation;
+    setLossFunction(updatedLossFunction);
+  };
+
+  const [lF, setLF] = useState([]);
+  useEffect(() => {
+    let thing = [];
+    for (let i = 0; i < 1; i++) {
+      thing.push(
+        <div>
+          <label htmlFor={`lossFunction${i}`}>Loss Function:</label>
+          <DropdownMenu>
+            <DropdownMenuTrigger id={`lossFunction${i}`}>{lossFunction[i]? lossFunction[i].charAt(0).toUpperCase() + lossFunction[i].slice(1) : ''}</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleLossFunction(i, 'Mean_Square_Error')}>Mean Square Error</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleLossFunction(i, 'Binary_Crossentropy')}>Binary Crossentropy</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleLossFunction(i, 'Categorical_Crossentropy')}>Categorical Crossentropy</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleLossFunction(i, 'LogCosh')}>Log Cosh</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>);
+    }
+    setLF(thing);
+  }, [lossFunction]);
 
   return (
     <div>
@@ -256,13 +284,7 @@ const FormComponent = () => {
           </DropdownMenu>
         </div>
         <div>
-          <label htmlFor="lossFunction">Loss Function:</label>
-          <input
-            type="text"
-            id="name"
-            value={lossFunction}
-            onChange={(e) => setLossFunction(e.target.value)}
-          />
+          {lF}
         </div>
         <div>
           <label htmlFor="optimizer">Optimizer:</label>

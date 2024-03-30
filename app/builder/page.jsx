@@ -320,7 +320,6 @@ const FormComponent = () => {
         <button type="submit">Submit</button>
       </form>
 
-      <ObjectDetection modelName={modelName} networkType={networkType} numberOfInputs={numberOfInputs} inputNames={inputNames} numberOfHiddenLayers={numberOfHiddenLayers} hiddenLayers={hiddenLayers} outputLayer={outputLayer} lossFunction={lossFunction} optimizer={optimizer} learningRate={learningRate} batchSize={batchSize} epochs={epochs} validationSplit={validationSplit} testSplit={testSplit}></ObjectDetection>
     </div>
   );
 };

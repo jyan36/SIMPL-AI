@@ -29,16 +29,51 @@ const FormComponent = () => {
   const [epochs, setEpochs] = useState('');
   const [validationSplit, setValidationSplit] = useState('');
   const [testSplit, setTestSplit] = useState('');
-  const [CNNkernelSize, setCNNkernelSize] = useState('');
-  const [CNNactivationFunction, setCNNactivationFunction] = useState('');
-  const [CNNnumberOfHiddenLayers, setCNNnumberOfHiddenLayers] = useState('');
+  const [CNNkernelSize, setCNNkernelSize] = useState(0);
+  const [CNNactivationFunction, setCNNactivationFunction] = useState('relu');
+  const [CNNnumberOfHiddenLayers, setCNNnumberOfHiddenLayers] = useState(0);
   const [hL, setHL] = useState([]);
+  const [misc, setMisc] = useState([]);
 
 
   useEffect(() => {
     let hi = ['Mean Square Error'];
     setLossFunction(hi);
   }, []);
+  
+
+  useEffect(() => {
+    let hi = [];
+    if (networkType == 'cnn') {
+      hi.push(
+        <div><label htmlFor="CNNkernelSize">Number of Kernels:</label>
+        <input
+          type="text"
+          id="name"
+          value={CNNkernelSize}
+          onChange={(e) => setCNNkernelSize(e.target.value)}
+        />
+        <label htmlFor={`cnnAct`}>Activation Function:</label>
+          <DropdownMenu>
+            <DropdownMenuTrigger id={`cnnAct`}>{CNNactivationFunction ? CNNactivationFunction : ''}</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleActivationCNNChange('relu')}>Relu</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationCNNChange('selu')}>Selu</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationCNNChange('sigmoid')}>Sigmoid</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationCNNChange('softmax')}>Softmax</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationCNNChange('linear')}>Linear</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationCNNChange('tanh')}>Tanh</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        
+      );
+    }
+    else if (networkType == 'rnn') {
+      hi.push(<h1>as</h1>)
+    }
+    setMisc(hi);
+  }, [networkType]);
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,6 +93,12 @@ const FormComponent = () => {
     const updatedHiddenLayers = [...hiddenLayers];
     updatedHiddenLayers[index].activation = selectedActivation;
     setHiddenLayers(updatedHiddenLayers);
+  };
+
+  const handleActivationCNNChange = (selectedActivation) => {
+    let updatedActivation = CNNactivationFunction;
+    updatedActivation = selectedActivation;
+    setCNNactivationFunction(updatedActivation);
   };
 
   const handleActivationOutChange = (selectedActivation) => {
@@ -360,6 +401,9 @@ const FormComponent = () => {
             value={CNNnumberOfHiddenLayers}
             onChange={(e) => setCNNnumberOfHiddenLayers(e.target.value)}
           />
+        </div>
+        <div>
+          {misc}
         </div>
         <button type="submit">Submit</button>
       </form>

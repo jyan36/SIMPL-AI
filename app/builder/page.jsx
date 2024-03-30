@@ -34,8 +34,10 @@ const FormComponent = () => {
   const [CNNnumberOfHiddenLayers, setCNNnumberOfHiddenLayers] = useState('');
   const [hL, setHL] = useState([]);
 
-  let hi = {nodes: 0, activationFunction: "relu"}; 
-  setOutputLayer(hi);
+  useEffect(() => {
+    let hi = {nodes: 0, activationFunction: "relu"}; 
+    setOutputLayer(hi);
+  }, []);
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -111,13 +113,16 @@ const FormComponent = () => {
     setHiddenLayers(updatedChange);
   };
   const handleOutputLayerNodesChange = (value) => {
-    const hi = outputLayer;
+    if (outputLayer) {
+      const hi = outputLayer;
     hi.nodes = value;
     setOutputLayer(hi);
+    console.log(hi);
+    }
   };
 
   const handleOutputLayerAFChange = (value) => {
-    const hi = outputLayer;
+    let hi = outputLayer;
     hi.activationFunction = value;
     setOutputLayer(hi);
   };
@@ -195,14 +200,14 @@ const FormComponent = () => {
             type="number"
             id="name"
             value={outputLayer? outputLayer.nodes : ''}
-            onChange={(e) => setOutputLayerNodes(e.target.value)}
+            onChange={(e) => handleOutputLayerNodesChange(e.target.value)}
           />
           <label htmlFor="outputLayer">Activation Function:</label>
           <input
             type="number"
             id="name"
             value={outputLayer? outputLayer.activationFunction : ''}
-            onChange={(e) => setOutputLayerAF(e.target.value)}
+            onChange={(e) => handleOutputLayerAFChange(e.target.value)}
           />
         </div>
         <div>

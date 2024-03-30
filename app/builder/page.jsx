@@ -39,6 +39,8 @@ const FormComponent = () => {
   useEffect(() => {
     let hi = ['Mean Square Error'];
     setLossFunction(hi);
+    let bye = ['SGD'];
+    setOptimizer(bye);
   }, []);
   
 
@@ -254,6 +256,32 @@ const FormComponent = () => {
     setLF(thing);
   }, [lossFunction]);
 
+  const handleOptimizer = (index, selectedActivation) => {
+    const updatedOptimizer = [...optiizer];
+    updatedOptimizer[index] = selectedActivation;
+    setLossFunction(updatedOptimizer);
+  };
+
+  const [oP, setOP] = useState([]);
+  useEffect(() => {
+    let thing = [];
+    for (let i = 0; i < 1; i++) {
+      thing.push(
+        <div>
+          <label htmlFor={`optimizer${i}`}>Optimizer:</label>
+          <DropdownMenu>
+            <DropdownMenuTrigger id={`optimizer${i}`}>{optimizer[i]? optimizer[i].charAt(0).toUpperCase() + optimizer[i].slice(1) : ''}</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleOptimizer(i, 'sgd')}>sgd</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleOptimizer(i, 'adam')}>adam</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleOptimizer(i, 'rmsprop')}>rmsprop</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>);
+    }
+    setOP(thing);
+  }, [optimizer]);
+
   return (
     <div>
       <h1>Network Builder</h1>
@@ -328,16 +356,10 @@ const FormComponent = () => {
           {lF}
         </div>
         <div>
-          <label htmlFor="optimizer">Optimizer:</label>
-          <input
-            type="text"
-            id="name"
-            value={optimizer}
-            onChange={(e) => setOptimizer(e.target.value)}
-          />
+          {oP}
         </div>
         <div>
-          <label htmlFor="learningRate">Learning Ratee:</label>
+          <label htmlFor="learningRate">Learning Rate:</label>
           <input
             type="text"
             id="name"
@@ -407,7 +429,6 @@ const FormComponent = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
-
     </div>
   );
 };

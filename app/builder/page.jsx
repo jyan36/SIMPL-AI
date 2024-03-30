@@ -34,7 +34,10 @@ const FormComponent = () => {
   const [CNNnumberOfHiddenLayers, setCNNnumberOfHiddenLayers] = useState('');
   const [hL, setHL] = useState([]);
 
-
+  useEffect(() => {
+    let hi = {nodes: 0, activation: 'relu'};
+    setOutputLayer(hi);
+  }, []);
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -55,6 +58,12 @@ const FormComponent = () => {
     const updatedHiddenLayers = [...hiddenLayers];
     updatedHiddenLayers[index].activation = selectedActivation;
     setHiddenLayers(updatedHiddenLayers);
+  };
+
+  const handleActivationOutChange = (selectedActivation) => {
+    const updatedOutputLayers = { ... outputLayer};
+    updatedOutputLayers.activation = selectedActivation;
+    setOutputLayer(updatedOutputLayers);
   };
 
   const handleTypeChange = (selectedType) => {
@@ -152,7 +161,7 @@ const FormComponent = () => {
     setHiddenLayers(updatedChange);
   };
   const handleOutputLayerNodesChange = (value) => {
-      const hi = outputLayer;
+    const hi = { ...outputLayer };
     hi.nodes = value;
     setOutputLayer(hi);
     console.log(hi);
@@ -225,13 +234,26 @@ const FormComponent = () => {
           {hL}
         </div>
         <div>
-          <label htmlFor="outputLayer">Output Layer:</label>
+          <h1>Output Layer</h1>
+          <label htmlFor="outputLayer">Number of Nodes</label>
           <input
             type="text"
             id="name"
-            value={outputLayer}
-            onChange={(e) => setOutputLayer(e.target.value)}
+            value={outputLayer.nodes}
+            onChange={(e) => handleOutputLayerNodesChange(e.target.value)}
           />
+          <label htmlFor={`outact`}>Activation Function</label>
+          <DropdownMenu>
+            <DropdownMenuTrigger id={`outact`}>{outputLayer ? outputLayer.activation.charAt(0).toUpperCase() + outputLayer.activation.substring(1) : ''}</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleActivationOutChange('relu')}>Relu</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationOutChange('selu')}>Selu</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationOutChange('sigmoid')}>Sigmoid</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationOutChange('softmax')}>Softmax</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationOutChange('linear')}>Linear</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationOutChange('tanh')}>Tanh</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
         <div>
           <label htmlFor="lossFunction">Loss Function:</label>

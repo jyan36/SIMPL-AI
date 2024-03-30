@@ -151,6 +151,12 @@ const FormComponent = () => {
     updatedChange[index] = value;
     setHiddenLayers(updatedChange);
   };
+  const handleOutputLayerNodesChange = (value) => {
+      const hi = outputLayer;
+    hi.nodes = value;
+    setOutputLayer(hi);
+    console.log(hi);
+  };
 
   useEffect(() => {
     let thing = [];

@@ -62,7 +62,7 @@ const FormComponent = () => {
   }
 
   const handleChangeNumberOfNodes = (index, value) => {
-    const updatedChange = inputNames;
+    const updatedChange = [...hiddenLayers];
     updatedChange[index] = value;
     setHiddenLayers(updatedChange);
   };
@@ -74,8 +74,8 @@ const FormComponent = () => {
   };
 
   const handleRegularizationParam = (index, value) => {
-    const updatedChange = inputNames;
-    updatedChange[index] = value;
+    const updatedChange = [...hiddenLayers];
+    updatedChange[index].regularization.param = value;
     setHiddenLayers(updatedChange);
   };
 
@@ -84,7 +84,7 @@ const FormComponent = () => {
     for (let i = 0; i < numberOfHiddenLayers; i++) {
       thing.push(
         <div key={i}>
-          <label htmlFor={`numberOfNodes`}>Number of Nodes:</label>
+          <label htmlFor={`numberOfNodes${i}`}>Number of Nodes:</label>
           <input
             type="text"
             id="name"

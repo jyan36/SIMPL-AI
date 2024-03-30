@@ -21,7 +21,7 @@ const FormComponent = () => {
   const [inputNames, setInputNames] = useState([]);
   const [numberOfHiddenLayers, setNumberOfHiddenLayers] = useState(0);
   const [hiddenLayers, setHiddenLayers] = useState([]);
-  const [outputLayer, setOutputLayer] = useState();
+  const [outputLayer, setOutputLayer] = useState('');
   const [lossFunction, setLossFunction] = useState('');
   const [optimizer, setOptimizer] = useState('');
   const [learningRate, setLearningRate] = useState('');
@@ -34,10 +34,7 @@ const FormComponent = () => {
   const [CNNnumberOfHiddenLayers, setCNNnumberOfHiddenLayers] = useState('');
   const [hL, setHL] = useState([]);
 
-  useEffect(() => {
-    let hi = {nodes: 0, activationFunction: "relu"}; 
-    setOutputLayer(hi);
-  }, []);
+
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -64,11 +61,36 @@ const FormComponent = () => {
     setNetworkType(selectedType);
   }
 
+  const handleChangeNumberOfNodes = (index, value) => {
+    const updatedChange = inputNames;
+    updatedChange[index] = value;
+    setHiddenLayers(updatedChange);
+  };
+
+  const handleRegularizationType = (index, selectedActivation) => {
+    const updatedHiddenLayers = [...hiddenLayers];
+    updatedHiddenLayers[index].activation = selectedActivation;
+    setHiddenLayers(updatedHiddenLayers);
+  };
+
+  const handleRegularizationParam = (index, value) => {
+    const updatedChange = inputNames;
+    updatedChange[index] = value;
+    setHiddenLayers(updatedChange);
+  };
+
   useEffect(() => {
     let thing = [];
     for (let i = 0; i < numberOfHiddenLayers; i++) {
       thing.push(
         <div key={i}>
+          <label htmlFor={`numberOfNodes`}>Number of Nodes:</label>
+          <input
+            type="text"
+            id="name"
+            value={hiddenLayers[i] ? hiddenLayers[i].nodes : ''}
+            onChange={(e) => handleChangeNumberOfNodes(i, e.target.value)}
+          />
           <label htmlFor={`hiddenLayers${i}`}>Hidden Layers:</label>
           <DropdownMenu>
             <DropdownMenuTrigger id={`hiddenLayers${i}`}>{hiddenLayers[i]?.activation ? hiddenLayers[i].activation.charAt(0).toUpperCase() + hiddenLayers[i].activation.slice(1) : ''}</DropdownMenuTrigger>
@@ -81,6 +103,23 @@ const FormComponent = () => {
               <DropdownMenuItem onClick={() => handleActivationChange(i, 'tanh')}>Tanh</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <label htmlFor={`regularizationType${i}`}>Regularization Type:</label>
+          <DropdownMenu>
+            <DropdownMenuTrigger id={`regularizationType${i}`}>{hiddenLayers[i]?.regularization ? hiddenLayers[i].regularization.type.charAt(0).toUpperCase() + hiddenLayers[i].regularization.type.slice(1) : ''}</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleRegularizationType(i, 'None')}>None</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleRegularizationType(i, 'L1')}>L1</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleRegularizationType(i, 'L2')}>L2</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleRegularizationType(i, 'Dropout')}>Dropout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <label htmlFor={`regularizationParam`}>Regularization Parameters:</label>
+          <input
+            type="text"
+            id="name"
+            value={hiddenLayers[i] ? hiddenLayers[i].regularization.param : ''}
+            onChange={(e) => handleRegularizationParam(i, e.target.value)}
+          />
         </div>
       );
     }
@@ -112,21 +151,7 @@ const FormComponent = () => {
     updatedChange[index] = value;
     setHiddenLayers(updatedChange);
   };
-  const handleOutputLayerNodesChange = (value) => {
-    if (outputLayer) {
-      const hi = outputLayer;
-    hi.nodes = value;
-    setOutputLayer(hi);
-    console.log(hi);
-    }
-  };
 
-  const handleOutputLayerAFChange = (value) => {
-    let hi = outputLayer;
-    hi.activationFunction = value;
-    setOutputLayer(hi);
-  };
-  
   useEffect(() => {
     let thing = [];
     for (let i = 0; i < numberOfInputs; i++) {
@@ -194,20 +219,12 @@ const FormComponent = () => {
           {hL}
         </div>
         <div>
-          <h1 className="text-bold">Output Layer:</h1>
-          <label htmlFor="outputLayer">Number of Nodes:</label>
+          <label htmlFor="outputLayer">Output Layer:</label>
           <input
-            type="number"
+            type="text"
             id="name"
-            value={outputLayer? outputLayer.nodes : ''}
-            onChange={(e) => handleOutputLayerNodesChange(e.target.value)}
-          />
-          <label htmlFor="outputLayer">Activation Function:</label>
-          <input
-            type="number"
-            id="name"
-            value={outputLayer? outputLayer.activationFunction : ''}
-            onChange={(e) => handleOutputLayerAFChange(e.target.value)}
+            value={outputLayer}
+            onChange={(e) => setOutputLayer(e.target.value)}
           />
         </div>
         <div>

@@ -32,6 +32,10 @@ const FormComponent = () => {
   const [CNNkernelSize, setCNNkernelSize] = useState(0);
   const [CNNactivationFunction, setCNNactivationFunction] = useState('relu');
   const [CNNnumberOfHiddenLayers, setCNNnumberOfHiddenLayers] = useState(0);
+  const [LSTMfeatures, setLSTMfeatures] = useState(0);
+  const [LSTMtimeSteps, setLSTMtimesteps] = useState(0);
+  const [LSTMunits, setLSTMunits] = useState(0);
+
   const [hL, setHL] = useState([]);
   const [misc, setMisc] = useState([]);
 
@@ -72,7 +76,31 @@ const FormComponent = () => {
       );
     }
     else if (networkType == 'rnn') {
-      hi.push(<h1>as</h1>)
+      hi.push(
+        <div><label htmlFor="LSTMfeatures">Number of Features:</label>
+        <input
+          type="text"
+          id="name"
+          value={LSTMfeatures}
+          onChange={(e) => setLSTMfeatures(e.target.value)}
+        />
+        <label htmlFor="LSTMtimeSteps">Number of Timesteps:</label>
+        <input
+          type="text"
+          id="name"
+          value={LSTMtimeSteps}
+          onChange={(e) => setLSTMtimesteps(e.target.value)}
+        />
+        <label htmlFor="LSTMtimeSteps">Number of LSTM Units:</label>
+        <input
+          type="text"
+          id="name"
+          value={LSTMunits}
+          onChange={(e) => setLSTMunits(e.target.value)}
+        />
+        
+        </div>
+      )
     }
     setMisc(hi);
   }, [networkType]);

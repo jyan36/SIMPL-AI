@@ -112,6 +112,26 @@ const FormComponent = () => {
             value={LSTMunits}
             onChange={(e) => setLSTMunits(e.target.value)}
           />
+          <label htmlFor="LSTMnumberOfHiddenLayers">Number of LSTM Hidden Layers:</label>
+          <input
+            type="text"
+            id="name"
+            value={LSTMnumberOfHiddenLayers}
+            onChange={(e) => setLSTMnumberOfHiddenLayers(e.target.value)}
+          />
+
+          <label htmlFor={`lstmAct`}>Activation Function:</label>
+          <DropdownMenu>
+            <DropdownMenuTrigger id={`lstmAct`}>{LSTMactivation ? LSTMactivation : ''}</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleActivationLSTMChange('relu')}>Relu</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationLSTMChange('selu')}>Selu</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationLSTMChange('sigmoid')}>Sigmoid</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationLSTMChange('softmax')}>Softmax</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationLSTMChange('linear')}>Linear</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationLSTMChange('tanh')}>Tanh</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
         </div>
       )
@@ -140,6 +160,13 @@ const FormComponent = () => {
     updatedHiddenLayers[index].activation = selectedActivation;
     setHiddenLayers(updatedHiddenLayers);
   };
+
+  const handleActivationLSTMChange = (selectedActivation) => {
+    let updatedLSTM = LSTMactivation;
+    updatedLSTM = selectedActivation;
+    setHiddenLayers(updatedLSTM);
+  };
+
 
   const handleActivationCNNChange = (selectedActivation) => {
     let updatedActivation = CNNactivationFunction;
@@ -411,23 +438,23 @@ const FormComponent = () => {
             </div>
             <div class="mb-4">
               <label for="learningRate" class="block mb-2">Learning Rate:</label>
-              <input type="text" id="learningRate" value={learningRate} onChange={(e) => setLearningRate(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+              <input type="text" id="learningRate" value={learningRate} onChange={(e) => setLearningRate(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" />
             </div>
             <div class="mb-4">
               <label for="batchSize" class="block mb-2">Batch Size:</label>
-              <input type="text" id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+              <input type="text" id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" />
             </div>
             <div class="mb-4">
               <label for="epochs" class="block mb-2">Epochs:</label>
-              <input type="text" id="epochs" value={epochs} onChange={(e) => setEpochs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+              <input type="text" id="epochs" value={epochs} onChange={(e) => setEpochs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" />
             </div>
             <div class="mb-4">
               <label for="validationSplit" class="block mb-2">Validation Split:</label>
-              <input type="text" id="validationSplit" value={validationSplit} onChange={(e) => setValidationSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+              <input type="text" id="validationSplit" value={validationSplit} onChange={(e) => setValidationSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" />
             </div>
             <div class="mb-4">
               <label for="testSplit" class="block mb-2">Test Split:</label>
-              <input type="text" id="testSplit" value={testSplit} onChange={(e) => setTestSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+              <input type="text" id="testSplit" value={testSplit} onChange={(e) => setTestSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" />
             </div>
             <div class="mb-4">
               {misc}

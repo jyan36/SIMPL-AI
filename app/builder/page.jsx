@@ -115,7 +115,7 @@ const FormComponent = () => {
             id="name"
             value={LSTMunits}
             onChange={(e) => setLSTMunits(e.target.value)}
-            style={{ color: 'black'}}
+            style={{ color: 'black' }}
           />
           <label htmlFor="LSTMnumberOfHiddenLayers">Number of LSTM Hidden Layers:</label>
           <input
@@ -147,50 +147,50 @@ const FormComponent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    buildModel({
-      modelName,
-      networkType,
-      numberOfInputs,
-      inputNames,
-      hiddenLayers,
-      outputLayer,
-      lossFunction,
-      optimizer,
-      learningRate,
-      batchSize,
-      epochs,
-      testSplit,
-      CNNkernelSize,
-      CNNnumberOfHiddenLayers,
-      CNNactivationFunction,
-      LSTMtimeSteps,
-      LSTMunits,
-      LSTMfeatures,
-      LSTMnumberOfHiddenLayers,
-      LSTMactivation
-  })
-  trainModel({
-    modelName,
-    networkType,
-    numberOfInputs,
-    inputNames,
-    hiddenLayers,
-    outputLayer,
-    lossFunction,
-    optimizer,
-    learningRate,
-    batchSize,
-    epochs,
-    testSplit,
-    CNNkernelSize,
-    CNNnumberOfHiddenLayers,
-    CNNactivationFunction,
-    LSTMtimeSteps,
-    LSTMunits,
-    LSTMfeatures,
-    LSTMnumberOfHiddenLayers,
-    LSTMactivation
-})
+    // buildModel({
+    //   modelName: parseInt(modelName),
+    //   networkType: networkType,
+    //   numberOfInputs: parseInt(numberOfInputs),
+    //   inputNames: inputNames,
+    //   hiddenLayers: hiddenLayers,
+    //   outputLayer: outputLayer,
+    //   lossFunction: lossFunction,
+    //   optimizer: optimizer,
+    //   learningRate: parseInt(learningRate),
+    //   batchSize: parseInt(batchSize),
+    //   epochs: parseInt(epochs),
+    //   testSplit: parseFloat(testSplit),
+    //   CNNkernelSize: parseInt(CNNkernelSize),
+    //   CNNnumberOfHiddenLayers: parseInt(CNNnumberOfHiddenLayers),
+    //   CNNactivationFunction: CNNactivationFunction,
+    //   LSTMtimeSteps: parseInt(LSTMtimeSteps),
+    //   LSTMunits: parseInt(LSTMunits),
+    //   LSTMfeatures: parseInt(LSTMfeatures),
+    //   LSTMnumberOfHiddenLayers: parseInt(LSTMnumberOfHiddenLayers),
+    //   LSTMactivation: LSTMactivation
+    // })
+    // trainModel({
+    //   modelName,
+    //   networkType,
+    //   numberOfInputs,
+    //   inputNames,
+    //   hiddenLayers,
+    //   outputLayer,
+    //   lossFunction,
+    //   optimizer,
+    //   learningRate,
+    //   batchSize,
+    //   epochs,
+    //   testSplit,
+    //   CNNkernelSize,
+    //   CNNnumberOfHiddenLayers,
+    //   CNNactivationFunction,
+    //   LSTMtimeSteps,
+    //   LSTMunits,
+    //   LSTMfeatures,
+    //   LSTMnumberOfHiddenLayers,
+    //   LSTMactivation
+    // })
 
 
     console.log('Form submitted:', { modelName, networkType, numberOfInputs, inputNames, numberOfHiddenLayers, hiddenLayers, outputLayer, lossFunction, optimizer, learningRate, batchSize, epochs, validationSplit, testSplit });
@@ -204,7 +204,7 @@ const FormComponent = () => {
     setHiddenLayers(hiddenLayerstemp);
   }, [numberOfHiddenLayers]);
 
-  
+
 
   const handleActivationChange = (index, selectedActivation) => {
     const updatedHiddenLayers = [...hiddenLayers];
@@ -423,10 +423,10 @@ const FormComponent = () => {
       <div class="bg-black text-white font-bold">
         <h1 class="text-8xl font-bold mb-16 ml-4 mt-16">Network Builder</h1>
         <div className="flex justify-center">
-          <form class="w-1/2" onSubmit={handleSubmit}>
+          <form class="w-1/2">
             <div class="mb-4">
               <label for="modelName" class="block mb-2">Model Name:</label>
-              <input type="text" id="modelName" value={modelName} onChange={(e) => setModelName(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
+              <input type="text" id="modelName" value={modelName} onChange={(e) => setModelName(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
             <div class="mb-4">
               <label for="networkType" class="block mb-2">Network Type:</label>
@@ -445,14 +445,14 @@ const FormComponent = () => {
             </div>
             <div class="mb-4">
               <label for="numberOfInputs" class="block mb-2">Number of Inputs:</label>
-              <input type="number" id="numberOfInputs" value={numberOfInputs} onChange={(e) => setNumberOfInputs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
+              <input type="number" id="numberOfInputs" value={numberOfInputs} onChange={(e) => setNumberOfInputs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
             <div class="mb-4">
               {iN}
             </div>
             <div class="mb-4">
               <label for="numberOfHiddenLayers" class="block mb-2">Number of Hidden Layers:</label>
-              <input type="number" id="numberOfHiddenLayers" value={numberOfHiddenLayers} onChange={(e) => setNumberOfHiddenLayers(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
+              <input type="number" id="numberOfHiddenLayers" value={numberOfHiddenLayers} onChange={(e) => setNumberOfHiddenLayers(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
             <div class="mb-4">
               {hL}
@@ -460,7 +460,7 @@ const FormComponent = () => {
             <div class="mb-4">
               <h1 class="text-white font-bold">Output Layer</h1>
               <label for="outputLayerNodes" class="block mb-2">Number of Nodes:</label>
-              <input type="number" id="outputLayerNodes" value={outputLayer.nodes} onChange={(e) => handleOutputLayerNodesChange(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
+              <input type="number" id="outputLayerNodes" value={outputLayer.nodes} onChange={(e) => handleOutputLayerNodesChange(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
               <label for={`outact`} class="block mb-2">Activation Function:</label>
               <div class="relative">
                 <DropdownMenu>
@@ -486,28 +486,28 @@ const FormComponent = () => {
             </div>
             <div class="mb-4">
               <label for="learningRate" class="block mb-2">Learning Rate:</label>
-              <input type="number" id="learningRate" value={learningRate} onChange={(e) => setLearningRate(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
+              <input type="number" id="learningRate" value={learningRate} onChange={(e) => setLearningRate(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
             <div class="mb-4">
               <label for="batchSize" class="block mb-2">Batch Size:</label>
-              <input type="number" id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
+              <input type="number" id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
             <div class="mb-4">
               <label for="epochs" class="block mb-2">Epochs:</label>
-              <input type="number" id="epochs" value={epochs} onChange={(e) => setEpochs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
+              <input type="number" id="epochs" value={epochs} onChange={(e) => setEpochs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
             <div class="mb-4">
               <label for="validationSplit" class="block mb-2">Validation Split:</label>
-              <input type="number" id="validationSplit" value={validationSplit} onChange={(e) => setValidationSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
+              <input type="number" id="validationSplit" value={validationSplit} onChange={(e) => setValidationSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
             <div class="mb-4">
               <label for="testSplit" class="block mb-2">Test Split:</label>
-              <input type="number" id="testSplit" value={testSplit} onChange={(e) => setTestSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
+              <input type="number" id="testSplit" value={testSplit} onChange={(e) => setTestSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
             <div class="mb-4">
               {misc}
             </div>
-            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>          </form>
+            <button onSubmit={handleSubmit} class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>          </form>
         </div>
       </div>
     </div>

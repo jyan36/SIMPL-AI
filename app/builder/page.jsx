@@ -396,8 +396,9 @@ const FormComponent = () => {
       thing.push(
         <div>
           <label htmlFor={`lossFunction${i}`}>Loss Function:</label>
+          <div className = "relative">
           <DropdownMenu>
-            <DropdownMenuTrigger id={`lossFunction${i}`}>{lossFunction[i] ? lossFunction[i].charAt(0).toUpperCase() + lossFunction[i].slice(1) : ''}</DropdownMenuTrigger>
+            <DropdownMenuTrigger id={`lossFunction${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{lossFunction[i] ? lossFunction[i].charAt(0).toUpperCase() + lossFunction[i].slice(1) : ''}</DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleLossFunction(i, 'meanSquaredError')}>Mean Square Error</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleLossFunction(i, 'Binary_Crossentropy')}>Binary Crossentropy</DropdownMenuItem>
@@ -405,6 +406,7 @@ const FormComponent = () => {
               <DropdownMenuItem onClick={() => handleLossFunction(i, 'LogCosh')}>Log Cosh</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          </div>
         </div>);
     }
     setLF(thing);
@@ -423,14 +425,16 @@ const FormComponent = () => {
       thing.push(
         <div>
           <label htmlFor={`optimizer${i}`}>Optimizer:</label>
-          <DropdownMenu>
-            <DropdownMenuTrigger id={`optimizer${i}`}>{optimizer[i] ? optimizer[i].charAt(0).toUpperCase() + optimizer[i].slice(1) : ''}</DropdownMenuTrigger>
+          <div className="relative">
+          <DropdownMenu> 
+            <DropdownMenuTrigger id={`optimizer${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{optimizer[i] ? optimizer[i].charAt(0).toUpperCase() + optimizer[i].slice(1) : ''}</DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleOptimizer(i, 'sgd')}>sgd</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleOptimizer(i, 'adam')}>adam</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleOptimizer(i, 'rmsprop')}>rmsprop</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          </div>
         </div>);
     }
     setOP(thing);
@@ -438,23 +442,23 @@ const FormComponent = () => {
 
   return (
     <div>
-      <header className="bg-black py-4 relative">
-        <div className="container mx-auto px-4 flex justify-between items-center relative">
-          <Link legacyBehavior href="/" passHref>
-            <h1 className="pl-16 text-white text-2xl font-bold">SIMPL-AI</h1>
+      <header className="bg-black py-4">
+      <div className="container mx-auto px-4 flex justify-between items-center">
+        <Link legacyBehavior href="/" passHref>
+        <h1 className="pl-16 text-white text-2xl font-bold">SIMPL-AI</h1>
+        </Link>
+        <nav className="flex space-x-4">
+          <Link legacyBehavior href="/about" passHref>
+            <a className="text-white pl-16 hover:text-gray-300">Instructions</a>
           </Link>
-          <nav className="flex space-x-4">
-            <Link legacyBehavior href="/about" passHref>
-              <a className="text-white pl-16 hover:text-gray-300">Instructions</a>
-            </Link>
-            <Link legacyBehavior href="/builder" passHref>
-              <a className="text-white pl-16 hover:text-gray-300">Network Builder</a>
-            </Link>
-          </nav>
-        </div>
-      </header>
-      <div className="bg-black text-white font-bold">
-        <h1 className="text-8xl font-bold mb-16 ml-4 mt-16">Network Builder</h1>
+          <Link legacyBehavior href="/builder" passHref>
+            <a className="text-white pl-16 hover:text-gray-300 pr-16">Network Builder</a>
+          </Link>
+        </nav>
+      </div>
+    </header>
+    <div className="bg-black text-white font-bol py-6">
+    <h1 className="pt-10 text-8xl font-bold text-center">Network Builder</h1>
         <div className="flex justify-center">
           <form className="w-1/2" onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -494,7 +498,7 @@ const FormComponent = () => {
               <h1 className="text-white font-bold">Output Layer</h1>
               <label for="outputLayerNodes" className="block mb-2">Number of Nodes:</label>
               <input type="number" id="outputLayerNodes" value={outputLayer.nodes} onChange={(e) => handleOutputLayerNodesChange(e.target.value)} className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
-              <label for={`outact`} className="block mb-2">Activation Function:</label>
+              <label for={`outact`} className="block mb-2 py-2 ">Activation Function:</label>
               <div className="relative">
                 <DropdownMenu>
                   <DropdownMenuTrigger id={`outact`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">

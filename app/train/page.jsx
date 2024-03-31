@@ -39,7 +39,7 @@ const Train = () => {
       console.log(data);
 
 
-      
+
     }
   }
   const handleClick = (e) => {
@@ -76,7 +76,7 @@ const Train = () => {
             <a className="text-white pl-16 hover:text-gray-300">Instructions</a>
           </Link>
           <Link legacyBehavior href="/builder" passHref>
-            <a className="text-white pl-16 hover:text-gray-300">Network Builder</a>
+            <a className="text-white pl-16 hover:text-gray-300 pr-16">Network Builder</a>
           </Link>
         </nav>
       </div>

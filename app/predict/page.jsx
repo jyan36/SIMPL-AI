@@ -20,9 +20,8 @@ const Predict = () => {
         let inputData = tf.tensor2d([realInputList]);
         
 
-        const modelPrediction = model.predict(inputData);
-        console.log(modelPrediction)
-        //setPrediction(modelPrediction);
+        const modelPrediction = model.predict(inputData).dataSync()[0];
+        setPrediction(modelPrediction);
     }
 
     useEffect(() => {

@@ -37,7 +37,7 @@
     "app/Jacob/page.tsx",
     "app/models/coco-ssd/page.jsx",
     "app/page.jsx",
-    "app/build/page.jsx"
+    "app/train/page.jsx"
   ],
   "exclude": [
     "node_modules"

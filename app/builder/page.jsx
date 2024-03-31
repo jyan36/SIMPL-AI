@@ -291,17 +291,19 @@ const FormComponent = () => {
     for (let i = 0; i < numberOfHiddenLayers; i++) {
       thing.push(
         <div key={i}>
-          <label htmlFor={`numberOfNodes${i}`}>Number of Nodes:</label>
+          <div className = "py-2 font-bold">Hidden Layer {i+1}</div>
+          <div className = "py-2"><label htmlFor={`numberOfNodes${i}`}>Number of Nodes:</label></div>
           <input
             type="number"
             id="name"
+            className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black"
             value={hiddenLayers[i] ? hiddenLayers[i].nodes : ''}
             onChange={(e) => handleChangeNumberOfNodes(i, e.target.value)}
             style={{ color: 'black' }}
           />
-          <label htmlFor={`hiddenLayers${i}`}>Hidden Layers:</label>
+          <div className = "py-2"><label htmlFor={`hiddenLayers${i}`}>Activation Function:</label></div>
           <DropdownMenu>
-            <DropdownMenuTrigger id={`hiddenLayers${i}`}>{hiddenLayers[i]?.activation ? hiddenLayers[i].activation.charAt(0).toUpperCase() + hiddenLayers[i].activation.slice(1) : ''}</DropdownMenuTrigger>
+            <DropdownMenuTrigger id={`hiddenLayers${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{hiddenLayers[i]?.activation ? hiddenLayers[i].activation.charAt(0).toUpperCase() + hiddenLayers[i].activation.slice(1) : ''}</DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleActivationChange(i, 'relu')}>Relu</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleActivationChange(i, 'selu')}>Selu</DropdownMenuItem>
@@ -311,9 +313,9 @@ const FormComponent = () => {
               <DropdownMenuItem onClick={() => handleActivationChange(i, 'tanh')}>Tanh</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <label htmlFor={`regularizationType${i}`}>Regularization Type:</label>
+          <div className = "py-2"><label htmlFor={`regularizationType${i}`}>Regularization Type:</label></div>
           <DropdownMenu>
-            <DropdownMenuTrigger id={`regularizationType${i}`}>{hiddenLayers[i]?.regularization ? hiddenLayers[i].regularization.type.charAt(0).toUpperCase() + hiddenLayers[i].regularization.type.slice(1) : ''}</DropdownMenuTrigger>
+            <DropdownMenuTrigger id={`regularizationType${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{hiddenLayers[i]?.regularization ? hiddenLayers[i].regularization.type.charAt(0).toUpperCase() + hiddenLayers[i].regularization.type.slice(1) : ''}</DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleRegularizationType(i, 'None')}>None</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleRegularizationType(i, 'L1')}>L1</DropdownMenuItem>
@@ -321,10 +323,11 @@ const FormComponent = () => {
               <DropdownMenuItem onClick={() => handleRegularizationType(i, 'Dropout')}>Dropout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <label htmlFor={`regularizationParam`}>Regularization Parameter:</label>
+          <div className = "py-2"><label htmlFor={`regularizationParam`}>Regularization Parameter:</label></div>
           <input
             type="number"
             id="name"
+            className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black"
             value={hiddenLayers[i]?.regularization ? hiddenLayers[i].regularization.param : ''}
             onChange={(e) => handleRegularizationParam(i, e.target.value)}
             style={{ color: 'black' }}
@@ -368,12 +371,13 @@ const FormComponent = () => {
     let thing = [];
     for (let i = 0; i < numberOfInputs; i++) {
       thing.push(
-        <div key={i}>
-          <label htmlFor={`inputNames${i}`}>Input Names:</label>
+        <div key={i} className = "py-2">
+          <div>          <label htmlFor={`inputNames${i}`}>Input Name {i+1} :</label></div>
           <input
             type="text"
             id="name"
             value={inputNames[i]}
+            className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black"
             onChange={(e) => handleInputChange(i, e.target.value)}
             style={{ color: 'black' }}
           />

@@ -260,7 +260,7 @@ export const trainModel = async ({
     }
 
     model.fit(inputTensor, outputTensor, {
-      epochs: epochs,
+      epochs: parseInt(epochs),
       callbacks: {
         onEpochEnd: (epoch, logs) => {
           console.log(`Epoch ${epoch + 1}: loss = ${logs.loss}`);

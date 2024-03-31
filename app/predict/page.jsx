@@ -16,14 +16,13 @@ const Predict = () => {
         let realInputList = Object.values(inputList);
         console.log(realInputList)
 
-        //realInputList = realInputList.map(str => parseInt(str));
-        realInputList = [realInputList];
-
-        let inputData = tf.tensor2d(realInputList);
+        realInputList = realInputList.map(Number);
+        let inputData = tf.tensor2d([realInputList]);
         
 
         const modelPrediction = model.predict(inputData);
-        setPrediction(modelPrediction);
+        console.log(modelPrediction)
+        //setPrediction(modelPrediction);
     }
 
     useEffect(() => {

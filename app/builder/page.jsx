@@ -146,51 +146,78 @@ const FormComponent = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    const data = {
+      modelName: parseInt(modelName),
+      networkType: networkType,
+      numberOfInputs: parseInt(numberOfInputs),
+      inputNames: inputNames,
+      hiddenLayers: hiddenLayers,
+      outputLayer: outputLayer,
+      lossFunction: lossFunction,
+      optimizer: optimizer,
+      learningRate: parseInt(learningRate),
+      batchSize: parseInt(batchSize),
+      epochs: parseInt(epochs),
+      testSplit: parseFloat(testSplit),
+      CNNkernelSize: parseInt(CNNkernelSize),
+      CNNnumberOfHiddenLayers: parseInt(CNNnumberOfHiddenLayers),
+      CNNactivationFunction: CNNactivationFunction,
+      LSTMtimeSteps: parseInt(LSTMtimeSteps),
+      LSTMunits: parseInt(LSTMunits),
+      LSTMfeatures: parseInt(LSTMfeatures),
+      LSTMnumberOfHiddenLayers: parseInt(LSTMnumberOfHiddenLayers),
+      LSTMactivation: LSTMactivation
+    };
 
-    // buildModel({
-    //   modelName: parseInt(modelName),
-    //   networkType: networkType,
-    //   numberOfInputs: parseInt(numberOfInputs),
-    //   inputNames: inputNames,
-    //   hiddenLayers: hiddenLayers,
-    //   outputLayer: outputLayer,
-    //   lossFunction: lossFunction,
-    //   optimizer: optimizer,
-    //   learningRate: parseInt(learningRate),
-    //   batchSize: parseInt(batchSize),
-    //   epochs: parseInt(epochs),
-    //   testSplit: parseFloat(testSplit),
-    //   CNNkernelSize: parseInt(CNNkernelSize),
-    //   CNNnumberOfHiddenLayers: parseInt(CNNnumberOfHiddenLayers),
-    //   CNNactivationFunction: CNNactivationFunction,
-    //   LSTMtimeSteps: parseInt(LSTMtimeSteps),
-    //   LSTMunits: parseInt(LSTMunits),
-    //   LSTMfeatures: parseInt(LSTMfeatures),
-    //   LSTMnumberOfHiddenLayers: parseInt(LSTMnumberOfHiddenLayers),
-    //   LSTMactivation: LSTMactivation
-    // })
-    // trainModel({
-    //   modelName,
-    //   networkType,
-    //   numberOfInputs,
-    //   inputNames,
-    //   hiddenLayers,
-    //   outputLayer,
-    //   lossFunction,
-    //   optimizer,
-    //   learningRate,
-    //   batchSize,
-    //   epochs,
-    //   testSplit,
-    //   CNNkernelSize,
-    //   CNNnumberOfHiddenLayers,
-    //   CNNactivationFunction,
-    //   LSTMtimeSteps,
-    //   LSTMunits,
-    //   LSTMfeatures,
-    //   LSTMnumberOfHiddenLayers,
-    //   LSTMactivation
-    // })
+    const jsonString = JSON.stringify(data);
+    console.log(jsonString);
+
+    localStorage.setItem('model-params', jsonString)
+
+    buildModel({
+      modelName: parseInt(modelName),
+      networkType: networkType,
+      numberOfInputs: parseInt(numberOfInputs),
+      inputNames: inputNames,
+      hiddenLayers: hiddenLayers,
+      outputLayer: outputLayer,
+      lossFunction: lossFunction,
+      optimizer: optimizer,
+      learningRate: parseInt(learningRate),
+      batchSize: parseInt(batchSize),
+      epochs: parseInt(epochs),
+      testSplit: parseFloat(testSplit),
+      CNNkernelSize: parseInt(CNNkernelSize),
+      CNNnumberOfHiddenLayers: parseInt(CNNnumberOfHiddenLayers),
+      CNNactivationFunction: CNNactivationFunction,
+      LSTMtimeSteps: parseInt(LSTMtimeSteps),
+      LSTMunits: parseInt(LSTMunits),
+      LSTMfeatures: parseInt(LSTMfeatures),
+      LSTMnumberOfHiddenLayers: parseInt(LSTMnumberOfHiddenLayers),
+      LSTMactivation: LSTMactivation
+    })
+    trainModel({
+      modelName,
+      networkType,
+      numberOfInputs,
+      inputNames,
+      hiddenLayers,
+      outputLayer,
+      lossFunction,
+      optimizer,
+      learningRate,
+      batchSize,
+      epochs,
+      testSplit,
+      CNNkernelSize,
+      CNNnumberOfHiddenLayers,
+      CNNactivationFunction,
+      LSTMtimeSteps,
+      LSTMunits,
+      LSTMfeatures,
+      LSTMnumberOfHiddenLayers,
+      LSTMactivation
+    })
 
 
     console.log('Form submitted:', { modelName, networkType, numberOfInputs, inputNames, numberOfHiddenLayers, hiddenLayers, outputLayer, lossFunction, optimizer, learningRate, batchSize, epochs, validationSplit, testSplit });
@@ -424,7 +451,7 @@ const FormComponent = () => {
         <h1 class="text-8xl font-bold mb-16 ml-4 mt-16">Network Builder</h1>
         <div className="flex justify-center">
           <form class="w-1/2" onSubmit={handleSubmit}>
-          <div class="mb-4">
+            <div class="mb-4">
               <label for="modelName" class="block mb-2">Model Name:</label>
               <input type="text" id="modelName" value={modelName} onChange={(e) => setModelName(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
@@ -507,8 +534,8 @@ const FormComponent = () => {
             <div class="mb-4">
               {misc}
             </div>
-            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>          
-            </form>
+            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
+          </form>
         </div>
       </div>
     </div>

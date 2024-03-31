@@ -133,6 +133,8 @@ const FormComponent = () => {
     setHiddenLayers(hiddenLayerstemp);
   }, [numberOfHiddenLayers]);
 
+  
+
   const handleActivationChange = (index, selectedActivation) => {
     const updatedHiddenLayers = [...hiddenLayers];
     updatedHiddenLayers[index].activation = selectedActivation;

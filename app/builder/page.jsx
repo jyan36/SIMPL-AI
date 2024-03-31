@@ -422,7 +422,7 @@ const FormComponent = () => {
       </header>
       <div class="bg-black text-white font-bold">
         <h1 class="text-8xl font-bold mb-16 ml-4 mt-16">Network Builder</h1>
-        <div class="flex justify-center">
+        <div className="flex justify-center">
           <form class="w-1/2" onSubmit={handleSubmit}>
             <div class="mb-4">
               <label for="modelName" class="block mb-2">Model Name:</label>

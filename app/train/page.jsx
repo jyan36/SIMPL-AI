@@ -1,9 +1,10 @@
 "use client"
-import React from 'react'
-
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const Train = () => {
+  const [dataImported, setDataImported] = useState(false);
+  const [data, setData] = useState('');
 
   const convertCSVtoJSON = (csvData) => {
     // Converting the headers and lines from the .csv file to arrays
@@ -31,6 +32,16 @@ const Train = () => {
     return jsonData;
   };
 
+  const handleTrain = (e) => {
+    e.preventDefault();
+    if (dataImported) {
+      // PUT STUFF HERE
+      console.log(data);
+
+
+      
+    }
+  }
   const handleClick = (e) => {
     e.preventDefault();
     const csvFileInput = document.getElementById('csvFileInput');
@@ -42,8 +53,8 @@ const Train = () => {
       reader.onload = (event) => {
         const csvData = event.target.result;
         const jsonData = convertCSVtoJSON(csvData);
-        
-        // PUT STUFF HERE
+        setData(jsonData);
+        setDataImported(true);
       };
 
       reader.readAsText(file);
@@ -76,6 +87,8 @@ const Train = () => {
       <input type="file" id="csvFileInput"/>
       <button onClick={handleClick}>Import CSV</button>
       </form>
+      <button onClick={handleTrain}>Train</button>
+
     </div>
       </main>
     </div>

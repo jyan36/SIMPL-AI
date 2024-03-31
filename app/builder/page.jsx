@@ -35,6 +35,9 @@ const FormComponent = () => {
   const [LSTMfeatures, setLSTMfeatures] = useState(0);
   const [LSTMtimeSteps, setLSTMtimesteps] = useState(0);
   const [LSTMunits, setLSTMunits] = useState(0);
+  const [LSTMnumberOfHiddenLayers, setLSTMnumberOfHiddenLayers] = useState(0);
+  const [LSTMactivation, setLSTMactivation] = useState(0);
+
 
   const [hL, setHL] = useState([]);
   const [misc, setMisc] = useState([]);
@@ -47,7 +50,7 @@ const FormComponent = () => {
     setOptimizer(bye);
     let oof = ['relu'];
     setCNNactivationFunction(oof);
-    let t = {  nodes: 0, activation: "relu"  };
+    let t = { nodes: 0, activation: "relu" };
     setOutputLayer(t);
   }, []);
 
@@ -169,8 +172,6 @@ const FormComponent = () => {
     updatedChange[index].regularization.param = value;
     setHiddenLayers(updatedChange);
   };
-
-
 
   useEffect(() => {
     let thing = [];
@@ -343,7 +344,7 @@ const FormComponent = () => {
         </div>
       </header>
       <div class="bg-black text-white font-bold">
-      <h1 class="text-8xl font-bold mb-8 ml-4">Network Builder</h1>
+        <h1 class="text-8xl font-bold mb-8 ml-4">Network Builder</h1>
         <div class="flex justify-center">
           <form class="w-1/2" onSubmit={handleSubmit}>
             <div class="mb-4">
@@ -429,8 +430,28 @@ const FormComponent = () => {
             <div class="mb-4">
               {misc}
             </div>
-            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
-          </form>
+            <button onSubmit={buildModel(
+              modelName,
+              networkType,
+              numberOfInputs,
+              inputNames,
+              hiddenLayers,
+              outputLayer,
+              lossFunction,
+              optimizer,
+              learningRate,
+              batchSize,
+              epochs,
+              testSplit,
+              CNNkernelSize,
+              CNNnumberOfHiddenLayers,
+              CNNactivationFunction,
+              LSTMtimeSteps,
+              LSTMunits,
+              LSTMfeatures,
+              LSTMnumberOfHiddenLayers,
+              LSTMactivation
+            )} type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>          </form>
         </div>
       </div>
     </div>

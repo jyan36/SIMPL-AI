@@ -45,7 +45,9 @@ const FormComponent = () => {
     setLossFunction(hi);
     let bye = ['SGD'];
     setOptimizer(bye);
-    let t = { nodes: 0, activation: "relu" };
+    let oof = ['relu'];
+    setCNNactivationFunction(oof);
+    let t = {  nodes: 0, activation: "relu"  };
     setOutputLayer(t);
   }, []);
 
@@ -340,116 +342,96 @@ const FormComponent = () => {
           </nav>
         </div>
       </header>
-      <h1 class="text-center mb-8">Network Builder</h1>
-
-      <div class="flex justify-center">
-        <form class="w-1/2" onSubmit={handleSubmit}>
-          <div class="mb-4">
-            <label for="modelName" class="block mb-2">Model Name:</label>
-            <input type="text" id="modelName" value={modelName} onChange={(e) => setModelName(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
-          </div>
-          <div class="mb-4">
-            <label for="networkType" class="block mb-2">Network Type:</label>
-            <div class="relative">
-              <DropdownMenu>
-                <DropdownMenuTrigger id={`type`} class="px-4 py-2 rounded border border-gray-400 bg-transparent text-white">
-                  {networkType ? networkType.charAt(0).toUpperCase() + networkType.slice(1) : ''}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => handleTypeChange('ann')}>ANN</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleTypeChange('rnn')}>RNN</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleTypeChange('cnn')}>CNN</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+      <div class="bg-black text-white font-bold">
+      <h1 class="text-8xl font-bold mb-8 ml-4">Network Builder</h1>
+        <div class="flex justify-center">
+          <form class="w-1/2" onSubmit={handleSubmit}>
+            <div class="mb-4">
+              <label for="modelName" class="block mb-2">Model Name:</label>
+              <input type="text" id="modelName" value={modelName} onChange={(e) => setModelName(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
             </div>
-          </div>
-          <div class="mb-4">
-            <label for="numberOfInputs" class="block mb-2">Number of Inputs:</label>
-            <input type="text" id="numberOfInputs" value={numberOfInputs} onChange={(e) => setNumberOfInputs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
-          </div>
-          <div class="mb-4">
-            {iN}
-          </div>
-          <div class="mb-4">
-            <label for="numberOfHiddenLayers" class="block mb-2">Number of Hidden Layers:</label>
-            <input type="text" id="numberOfHiddenLayers" value={numberOfHiddenLayers} onChange={(e) => setNumberOfHiddenLayers(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
-          </div>
-          <div class="mb-4">
-            {hL}
-          </div>
-          <div class="mb-4">
-            <h1 class="text-white font-bold">Output Layer</h1>
-            <label for="outputLayerNodes" class="block mb-2">Number of Nodes:</label>
-            <input type="text" id="outputLayerNodes" value={outputLayer.nodes} onChange={(e) => handleOutputLayerNodesChange(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
-            <label for={`outact`} class="block mb-2">Activation Function:</label>
-            <div class="relative">
-              <DropdownMenu>
-                <DropdownMenuTrigger id={`outact`} class="px-4 py-2 rounded border border-gray-400 bg-transparent text-white">
-                  {outputLayer?.activation ? outputLayer.activation.charAt(0).toUpperCase() + outputLayer.activation.slice(1) : ''}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => handleActivationOutChange('relu')}>Relu</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleActivationOutChange('selu')}>Selu</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleActivationOutChange('sigmoid')}>Sigmoid</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleActivationOutChange('softmax')}>Softmax</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleActivationOutChange('linear')}>Linear</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleActivationOutChange('tanh')}>Tanh</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+            <div class="mb-4">
+              <label for="networkType" class="block mb-2">Network Type:</label>
+              <div class="relative">
+                <DropdownMenu>
+                  <DropdownMenuTrigger id={`type`} class="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">
+                    {networkType ? networkType.charAt(0).toUpperCase() + networkType.slice(1) : ''}
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => handleTypeChange('ann')}>ANN</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleTypeChange('rnn')}>RNN</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleTypeChange('cnn')}>CNN</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
-          </div>
-          <div class="mb-4">
-            {lF}
-          </div>
-          <div class="mb-4">
-            {oP}
-          </div>
-          <div class="mb-4">
-            <label for="learningRate" class="block mb-2">Learning Rate:</label>
-            <input type="text" id="learningRate" value={learningRate} onChange={(e) => setLearningRate(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
-          </div>
-          <div class="mb-4">
-            <label for="batchSize" class="block mb-2">Batch Size:</label>
-            <input type="text" id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
-          </div>
-          <div class="mb-4">
-            <label for="epochs" class="block mb-2">Epochs:</label>
-            <input type="text" id="epochs" value={epochs} onChange={(e) => setEpochs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
-          </div>
-          <div class="mb-4">
-            <label for="validationSplit" class="block mb-2">Validation Split:</label>
-            <input type="text" id="validationSplit" value={validationSplit} onChange={(e) => setValidationSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
-          </div>
-          <div class="mb-4">
-            <label for="testSplit" class="block mb-2">Test Split:</label>
-            <input type="text" id="testSplit" value={testSplit} onChange={(e) => setTestSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
-          </div>
-          <div class="mb-4">
-            {misc}
-          </div>
-          <button onSubmit={buildModel(
-            modelName,
-            networkType,
-            numberOfInputs,
-            inputNames,
-            hiddenLayers,
-            outputLayer,
-            lossFunction,
-            optimizer,
-            learningRate,
-            batchSize,
-            epochs,
-            testSplit,
-            CNNkernelSize,
-            CNNnumberOfHiddenLayers,
-            CNNactivationFunction,
-            LSTMtimeSteps,
-            LSTMunits,
-            LSTMfeatures,
-            LSTMnumberOfHiddenLayers,
-            LSTMactivation
-          )} type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
-        </form>
+            <div class="mb-4">
+              <label for="numberOfInputs" class="block mb-2">Number of Inputs:</label>
+              <input type="text" id="numberOfInputs" value={numberOfInputs} onChange={(e) => setNumberOfInputs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+            </div>
+            <div class="mb-4">
+              {iN}
+            </div>
+            <div class="mb-4">
+              <label for="numberOfHiddenLayers" class="block mb-2">Number of Hidden Layers:</label>
+              <input type="text" id="numberOfHiddenLayers" value={numberOfHiddenLayers} onChange={(e) => setNumberOfHiddenLayers(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+            </div>
+            <div class="mb-4">
+              {hL}
+            </div>
+            <div class="mb-4">
+              <h1 class="text-white font-bold">Output Layer</h1>
+              <label for="outputLayerNodes" class="block mb-2">Number of Nodes:</label>
+              <input type="text" id="outputLayerNodes" value={outputLayer.nodes} onChange={(e) => handleOutputLayerNodesChange(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+              <label for={`outact`} class="block mb-2">Activation Function:</label>
+              <div class="relative">
+                <DropdownMenu>
+                  <DropdownMenuTrigger id={`outact`} class="px-4 py-2 rounded border border-gray-400 bg-transparent text-white">
+                    {outputLayer?.activation ? outputLayer.activation.charAt(0).toUpperCase() + outputLayer.activation.slice(1) : ''}
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => handleActivationOutChange('relu')}>Relu</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleActivationOutChange('selu')}>Selu</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleActivationOutChange('sigmoid')}>Sigmoid</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleActivationOutChange('softmax')}>Softmax</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleActivationOutChange('linear')}>Linear</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleActivationOutChange('tanh')}>Tanh</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+            <div class="mb-4">
+              {lF}
+            </div>
+            <div class="mb-4">
+              {oP}
+            </div>
+            <div class="mb-4">
+              <label for="learningRate" class="block mb-2">Learning Rate:</label>
+              <input type="text" id="learningRate" value={learningRate} onChange={(e) => setLearningRate(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+            </div>
+            <div class="mb-4">
+              <label for="batchSize" class="block mb-2">Batch Size:</label>
+              <input type="text" id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+            </div>
+            <div class="mb-4">
+              <label for="epochs" class="block mb-2">Epochs:</label>
+              <input type="text" id="epochs" value={epochs} onChange={(e) => setEpochs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+            </div>
+            <div class="mb-4">
+              <label for="validationSplit" class="block mb-2">Validation Split:</label>
+              <input type="text" id="validationSplit" value={validationSplit} onChange={(e) => setValidationSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+            </div>
+            <div class="mb-4">
+              <label for="testSplit" class="block mb-2">Test Split:</label>
+              <input type="text" id="testSplit" value={testSplit} onChange={(e) => setTestSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+            </div>
+            <div class="mb-4">
+              {misc}
+            </div>
+            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
+          </form>
+        </div>
       </div>
     </div>
   );

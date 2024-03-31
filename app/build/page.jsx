@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react'
 import * as tf from '@tensorflow/tfjs'
 
-const buildModel = async ({
+export const buildModel = async ({
   modelName,
   networkType,
   numberOfInputs,
@@ -182,7 +182,7 @@ const buildModel = async ({
   // const saveResult = await model.save('localstorage://my-model');
   // console.log(saveResult);
 
-  const jsonBlob = new Blob([JSON.stringify(modelJSON)], { type: 'application/json' });
+  // const jsonBlob = new Blob([JSON.stringify(modelJSON)], { type: 'application/json' });
   // const downloadLink = document.createElement('a');
   // downloadLink.href = URL.createObjectURL(jsonBlob);
   // downloadLink.download = 'model.json';
@@ -216,62 +216,9 @@ const trainModel = async ({
 
   const model = await tf.loadLayersModel('indexeddb://my-model-1');
 
-  // const model = tf.sequential();
-  // model.add(tf.layers.conv2d({
-  //   inputShape: [28, 28, 1],
-  //   filters: 32,
-  //   kernelSize: [5, 5],
-  //   activation: 'relu',
-  // }));
-  // model.add(tf.layers.conv2d({
-  //   filters: 32,
-  //   kernelSize: [5, 5],
-  //   activation: 'relu',
-  // }));
-  // model.add(tf.layers.maxPooling2d({
-  //   poolSize: [2, 2]
-  // }));
-  // model.add(tf.layers.dropout({
-  //   rate: 0.25
-  // }));
-  // model.add(tf.layers.conv2d({
-  //   filters: 64,
-  //   kernelSize: [3, 3],
-  //   activation: 'relu',
-  // }));
-  // model.add(tf.layers.conv2d({
-  //   filters: 64,
-  //   kernelSize: [3, 3],
-  //   activation: 'relu',
-  // }));
-  // model.add(tf.layers.maxPooling2d({
-  //   poolSize: [2, 2]
-  // }));
-  // model.add(tf.layers.dropout({
-  //   rate: 0.25
-  // }));
-  // model.add(tf.layers.flatten());
-
-  // model.add(tf.layers.dense({
-  //   units: 256,
-  //   activation: 'relu'
-  // }));
-  // model.add(tf.layers.dropout({
-  //   rate: 0.5
-  // }));
-  // model.add(tf.layers.dense({
-  //   units: 10,
-  //   activation: 'softmax'
-  // }));
-
   const trainData = tf.data.csv(
     'XOR_Data.csv', {
     hasHeader: true,
-    // columnConfigs: {
-    //   A: {
-    //     isLabel: true
-    //   }
-    // }
   }
   );
 
@@ -293,22 +240,6 @@ const trainModel = async ({
 
     const inputTensor = tf.tensor2d(inputarray, [inputarray.length, numberOfInputs]);
     const outputTensor = tf.tensor2d(outputarray, [outputarray.length, outputLayer.nodes]);
-    // const inputTensor = tf.tensor2d([[1, 1], [0, 1], [1, 0], [0, 0]]);
-    // const outputTensor = tf.tensor2d([[0], [1], [1], [0]]);
-
-    //const processedData = [...inputTensor, ...outputTensor]
-
-    // const processedData = trainData.map(({
-    //   xs,
-    //   ys
-    // }) => {
-    //   return {
-    //     // get all pixels and put them into a tensor with 28 * 28 * 1
-    //     xs: tf.tensor(Object.values(xs), [2, 1]).div(255),
-    //     // we need to do one-hot encoding for each label
-    //     ys: tf.oneHot((Object.values(ys)[0]), 1)
-    //   };
-    // })//.shuffle(4).batch(4);
 
     if (optimizer == 'adam') {
       model.compile({
@@ -334,21 +265,10 @@ const trainModel = async ({
           console.log(`Epoch ${epoch + 1}: loss = ${logs.loss}`);
         }
       }
+    }).then(() => {
+      model.save('indexeddb://my-model-1');
     });
   });
-
-
-
-  // model.fit((processedData), {
-  //   epochs: 20,
-  //   verbose: true,
-  //   // regist tensorboard for visualization
-
-  // }).then(() => {
-  //   // save the current model
-  //   console.log("finished!!!")
-  //   model.save("./mnist")
-  // })
 }
 
 

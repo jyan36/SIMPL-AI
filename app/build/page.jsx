@@ -1,7 +1,8 @@
 "use client"
 
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as tf from '@tensorflow/tfjs'
+import Link from 'next/link';
 
 export const buildModel = async ({
   modelName,
@@ -28,7 +29,6 @@ export const buildModel = async ({
 
   let model = tf.sequential();
   if (networkType.toLowerCase() == 'ann') {
-
     model.add(tf.layers.dense({
       units: parseInt(numberOfInputs),
       inputShape: [parseInt(numberOfInputs),],
@@ -75,17 +75,17 @@ export const buildModel = async ({
 
     if (optimizer.toLowerCase() == 'adam') {
       model.compile({
-        optimizer: tf.train.adam(parseFloat(learningRate)),
+        optimizer: tf.train.adam(learningRate),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'sgd') {
       model.compile({
-        optimizer: tf.train.sgd(parseFloat(learningRate)),
+        optimizer: tf.train.sgd(learningRate),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'rmsprop') {
       model.compile({
-        optimizer: tf.train.rmsprop(parseFloat(learningRate)),
+        optimizer: tf.train.rmsprop(learningRate),
         loss: lossFunction,
       });
     }
@@ -93,7 +93,7 @@ export const buildModel = async ({
   else if (networkType.toLowerCase() == 'cnn') {
     model.add(tf.layers.conv2d({
       inputShape: [parseInt(numberOfInputs), parseInt(numberOfInputs), 1],
-      kernelSize: parseInt(CNNkernelSize),
+      kernelSize: CNNkernelSize,
       filters: 1,
       kernelInitializer: 'heNormal',
       activation: CNNactivationFunction
@@ -118,17 +118,17 @@ export const buildModel = async ({
 
     if (optimizer.toLowerCase() == 'adam') {
       model.compile({
-        optimizer: tf.train.adam(parseFloat(learningRate)),
+        optimizer: tf.train.adam(learningRate),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'sgd') {
       model.compile({
-        optimizer: tf.train.sgd(parseFloat(learningRate)),
+        optimizer: tf.train.sgd(learningRate),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'rmsprop') {
       model.compile({
-        optimizer: tf.train.rmsprop(parseFloat(learningRate)),
+        optimizer: tf.train.rmsprop(learningRate),
         loss: lossFunction,
       });
     }
@@ -161,17 +161,17 @@ export const buildModel = async ({
 
     if (optimizer.toLowerCase() == 'adam') {
       model.compile({
-        optimizer: tf.train.adam(parseFloat(learningRate)),
+        optimizer: tf.train.adam(learningRate),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'sgd') {
       model.compile({
-        optimizer: tf.train.sgd(parseFloat(learningRate)),
+        optimizer: tf.train.sgd(learningRate),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'rmsprop') {
       model.compile({
-        optimizer: tf.train.rmsprop(parseFloat(learningRate)),
+        optimizer: tf.train.rmsprop(learningRate),
         loss: lossFunction,
       });
     }
@@ -244,7 +244,7 @@ export const trainModel = async ({
 
     if (optimizer.toLowerCase() == 'adam') {
       model.compile({
-        optimizer: tf.train.adam(parseFloat(learningRate)),
+        optimizer: tf.train.adam(learningRate),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'sgd') {
@@ -275,6 +275,8 @@ export const trainModel = async ({
 
 const BuildModel = () => {
 
+
+
   const modelProps = {
     modelName: 'exampleModel',
     networkType: 'ANN',
@@ -287,7 +289,7 @@ const BuildModel = () => {
     outputLayer: { nodes: 1, activationFunction: 'sigmoid' },
     lossFunction: 'meanSquaredError',
     optimizer: 'adam',
-    learningRate: 0.001,
+    learningRate: 0.01,
     batchSize: 32,
     epochs: 1000,
     testSplit: 0.2,
@@ -301,20 +303,106 @@ const BuildModel = () => {
     LSTMactivation: 'tanh'
   };
 
-  
+  const [dataImported, setDataImported] = useState(false);
+  const [data, setData] = useState('');
+
+  const convertCSVtoJSON = (csvData) => {
+    // Converting the headers and lines from the .csv file to arrays
+    const lines = csvData.split('\n');
+    const headers = lines[0].split(',');
+    for (let i = 0; i < headers.length; i++) {
+      headers[i] = headers[i].replace(/\r/g, '');
+    }
+    for (let i = 0; i < lines.length; i++) {
+      lines[i] = lines[i].replace(/\r/g, '');
+    }
+    const jsonData = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      const currentLine = lines[i].split(',');
+      if (currentLine.length === headers.length) {
+        const obj = {};
+        for (let j = 0; j < headers.length; j++) {
+          obj[headers[j]] = currentLine[j];
+        }
+        jsonData.push(obj);
+      }
+    }
+
+    return jsonData;
+  };
+
+  const handleTrain = (e) => {
+    e.preventDefault();
+    if (dataImported) {
+      // PUT STUFF HERE
+      console.log(data);
+
+
+
+    }
+  }
+  const handleClick = (e) => {
+    e.preventDefault();
+    const csvFileInput = document.getElementById('csvFileInput');
+    const file = csvFileInput.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const csvData = event.target.result;
+        const jsonData = convertCSVtoJSON(csvData);
+        setData(jsonData);
+        setDataImported(true);
+      };
+
+      reader.readAsText(file);
+      alert('Completed.');
+    } else {
+      alert('Please select a CSV file to convert.');
+    }
+  };
 
   useEffect(() => {
 
-    const JSONmodelProps2 = localStorage.getItem('model-params');
-    const modelProps2 = JSON.parse(JSONmodelProps2);
 
-    buildModel(modelProps2);
-    trainModel(modelProps2);
+    const JSONmodelProps2 = localStorage.getItem('model-params')
+    const modelProps2 = JSON.parse(JSONmodelProps2)
+    console.log(modelProps2);
+
+    buildModel(modelProps);
+    trainModel(modelProps);
 
   }, []);
 
   return (
-    <button>Train Model</button>
+    <div className='flex items-center p-5 justify-center flex-col h-screen'>
+      <header className="bg-black py-4 w-full">
+        <div className="container mx-auto px-4 flex justify-between items-center">
+          <Link legacyBehavior href="/" passHref>
+            <h1 className="pl-16 text-white text-2xl font-bold">SIMPL-AI</h1>
+          </Link>
+          <nav className="flex space-x-4">
+            <Link legacyBehavior href="/about" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Instructions</a>
+            </Link>
+            <Link legacyBehavior href="/builder" passHref>
+              <a className="text-white pl-16 hover:text-gray-300 pr-16">Network Builder</a>
+            </Link>
+          </nav>
+        </div>
+      </header>
+      <main className="flex h-full w-full items-center justify-center bg-black text-white">
+        <div>
+          <form>
+            <input type="file" id="csvFileInput" />
+            <button onClick={handleClick}>Import CSV</button>
+          </form>
+          <button onClick={handleTrain}>Train</button>
+        </div>
+      </main>
+    </div>
   )
 }
 

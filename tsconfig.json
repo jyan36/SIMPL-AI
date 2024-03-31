@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,9 +22,24 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/models/page.jsx", "app/builder/page.jsx", "app/Jacob/page.tsx", "app/models/coco-ssd/page.jsx", "app/page.jsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/models/page.jsx",
+    "app/builder/page.jsx",
+    "app/Jacob/page.tsx",
+    "app/models/coco-ssd/page.jsx",
+    "app/page.jsx",
+    "app/build/page.jsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

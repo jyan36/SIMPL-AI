@@ -267,7 +267,7 @@ export const trainModel = async ({
         }
       }
     }).then(() => {
-      model.save('indexeddb://my-model-1');
+      model.save('indexeddb://my-model-2');
     });
   });
 }
@@ -337,10 +337,14 @@ const BuildModel = () => {
     if (dataImported) {
       // PUT STUFF HERE
       console.log(data);
-
-
+      
+      buildModel(modelProps);
+      trainModel(modelProps);
 
     }
+
+    buildModel(modelProps);
+      trainModel(modelProps);
   }
   const handleClick = (e) => {
     e.preventDefault();
@@ -371,14 +375,11 @@ const BuildModel = () => {
     const modelProps2 = JSON.parse(JSONmodelProps2)
     console.log(modelProps2);
 
-    buildModel(modelProps);
-    trainModel(modelProps);
-
   }, []);
 
   return (
-    <div className='flex items-center p-5 justify-center flex-col h-screen'>
-      <header className="bg-black py-4 w-full">
+    <div className='flex flex-col h-screen items-center p-5 bg-black gap-5 pr-20 pl-20'>
+      <div className="bg-black py-4 w-full">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <Link legacyBehavior href="/" passHref>
             <h1 className="pl-16 text-white text-2xl font-bold">SIMPL-AI</h1>
@@ -392,16 +393,19 @@ const BuildModel = () => {
             </Link>
           </nav>
         </div>
-      </header>
-      <main className="flex h-full w-full items-center justify-center bg-black text-white">
-        <div>
-          <form>
-            <input type="file" id="csvFileInput" />
-            <button onClick={handleClick}>Import CSV</button>
+      </div>
+      <div className="flex flex-row h-full w-full items-center justify-center gap-2 p-2 text-black">
+        <div className='h-full basis-5/12  flex flex-col justify-center items-center gap-5'>
+          <form className='flex flex-col gap-5 justify-center items-center'>
+            <input type="file" id="csvFileInput" className=' p-5 bg-gray-500 w-[300px] h-19 items-center flex justify-center rounded-3xl' />
+            <button className='w-[300px] p-5 rounded-3xl bg-gray-500 text-3xl' onClick={handleClick}>Import CSV</button>
           </form>
-          <button onClick={handleTrain}>Train</button>
+          <button className='text-3xl w-[300px] rounded-3xl p-5 bg-gray-500' onClick={handleTrain}>Train</button>
         </div>
-      </main>
+        <div className='basis-7/12 h-full bg-green-500'>
+
+        </div>
+      </div>
     </div>
   )
 }

@@ -244,17 +244,17 @@ export const trainModel = async ({
 
     if (optimizer.toLowerCase() == 'adam') {
       model.compile({
-        optimizer: tf.train.adam(learningRate),
+        optimizer: tf.train.adam(parseInt(learningRate)),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'sgd') {
       model.compile({
-        optimizer: tf.train.sgd(learningRate),
+        optimizer: tf.train.sgd(parseInt(learningRate)),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'rmsprop') {
       model.compile({
-        optimizer: tf.train.rmsprop(learningRate),
+        optimizer: tf.train.rmsprop(parseInt(learningRate)),
         loss: lossFunction,
       });
     }

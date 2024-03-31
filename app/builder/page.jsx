@@ -565,7 +565,7 @@ const FormComponent = () => {
               {misc}
             </div>
             <div className="flex justify-center items-center h-screen pb-10">
-              <button type="submit" className="border border-white hover:bg-white hover:text-black hover:border-black bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
+              <button type="submit" className="border border-white hover:text-black hover:border-black bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
             </div>
             <div className="mb-10"></div>
 

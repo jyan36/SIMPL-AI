@@ -17,13 +17,19 @@ const Testing = () => {
         <h1 className="pl-16 text-white text-2xl font-bold">SIMPL-AI</h1>
         </Link>
         <nav className="flex space-x-4">
-          <Link legacyBehavior href="/about" passHref>
-            <a className="text-white pl-16 hover:text-gray-300">Instructions</a>
-          </Link>
-          <Link legacyBehavior href="/builder" passHref>
-            <a className="text-white pl-16 hover:text-gray-300 pr-16">Network Builder</a>
-          </Link>
-        </nav>
+            <Link legacyBehavior href="/about" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Instructions</a>
+            </Link>
+            <Link legacyBehavior href="/builder" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Network Builder</a>
+            </Link>
+            <Link legacyBehavior href="/train" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Network Trainer</a>
+            </Link>
+            <Link legacyBehavior href="/predict" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Network Predictor</a>
+            </Link>
+          </nav>
       </div>
     </header>
       <main className="bg-black min-h-screen relative">

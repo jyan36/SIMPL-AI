@@ -52,7 +52,13 @@ const Predict = () => {
                         <a className="text-white pl-16 hover:text-gray-300">Instructions</a>
                     </Link>
                     <Link legacyBehavior href="/builder" passHref>
-                        <a className="text-white pl-16 hover:text-gray-300 pr-16">Network Builder</a>
+                        <a className="text-white pl-16 hover:text-gray-300">Network Builder</a>
+                    </Link>
+                    <Link legacyBehavior href="/train" passHref>
+                        <a className="text-white pl-16 hover:text-gray-300">Network Trainer</a>
+                    </Link>
+                    <Link legacyBehavior href="/predict" passHref>
+                        <a className="text-white pl-16 hover:text-gray-300">Network Predictor</a>
                     </Link>
                 </nav>
             </div>

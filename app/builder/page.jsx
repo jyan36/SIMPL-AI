@@ -291,8 +291,8 @@ const FormComponent = () => {
     for (let i = 0; i < numberOfHiddenLayers; i++) {
       thing.push(
         <div key={i}>
-          <div className = "py-2 font-bold">Hidden Layer {i+1}</div>
-          <div className = "py-2"><label htmlFor={`numberOfNodes${i}`}>Number of Nodes:</label></div>
+          <div className="py-2 font-bold">Hidden Layer {i + 1}</div>
+          <div className="py-2"><label htmlFor={`numberOfNodes${i}`}>Number of Nodes:</label></div>
           <input
             type="number"
             id="name"
@@ -301,7 +301,7 @@ const FormComponent = () => {
             onChange={(e) => handleChangeNumberOfNodes(i, e.target.value)}
             style={{ color: 'black' }}
           />
-          <div className = "py-2"><label htmlFor={`hiddenLayers${i}`}>Activation Function:</label></div>
+          <div className="py-2"><label htmlFor={`hiddenLayers${i}`}>Activation Function:</label></div>
           <DropdownMenu>
             <DropdownMenuTrigger id={`hiddenLayers${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{hiddenLayers[i]?.activation ? hiddenLayers[i].activation.charAt(0).toUpperCase() + hiddenLayers[i].activation.slice(1) : ''}</DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -313,7 +313,7 @@ const FormComponent = () => {
               <DropdownMenuItem onClick={() => handleActivationChange(i, 'tanh')}>Tanh</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <div className = "py-2"><label htmlFor={`regularizationType${i}`}>Regularization Type:</label></div>
+          <div className="py-2"><label htmlFor={`regularizationType${i}`}>Regularization Type:</label></div>
           <DropdownMenu>
             <DropdownMenuTrigger id={`regularizationType${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{hiddenLayers[i]?.regularization ? hiddenLayers[i].regularization.type.charAt(0).toUpperCase() + hiddenLayers[i].regularization.type.slice(1) : ''}</DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -323,7 +323,7 @@ const FormComponent = () => {
               <DropdownMenuItem onClick={() => handleRegularizationType(i, 'Dropout')}>Dropout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <div className = "py-2"><label htmlFor={`regularizationParam`}>Regularization Parameter:</label></div>
+          <div className="py-2"><label htmlFor={`regularizationParam`}>Regularization Parameter:</label></div>
           <input
             type="number"
             id="name"
@@ -371,8 +371,8 @@ const FormComponent = () => {
     let thing = [];
     for (let i = 0; i < numberOfInputs; i++) {
       thing.push(
-        <div key={i} className = "py-2">
-          <div>          <label htmlFor={`inputNames${i}`}>Input Name {i+1} :</label></div>
+        <div key={i} className="py-2">
+          <div>          <label htmlFor={`inputNames${i}`}>Input Name {i + 1} :</label></div>
           <input
             type="text"
             id="name"
@@ -410,16 +410,16 @@ const FormComponent = () => {
       thing.push(
         <div>
           <label htmlFor={`lossFunction${i}`}>Loss Function:</label>
-          <div className = "relative">
-          <DropdownMenu>
-            <DropdownMenuTrigger id={`lossFunction${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{lossFunctionParse(lossFunction)}</DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleLossFunction(i, 'meanSquaredError')}>Mean Square Error</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleLossFunction(i, 'Binary_Crossentropy')}>Binary Crossentropy</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleLossFunction(i, 'Categorical_Crossentropy')}>Categorical Crossentropy</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleLossFunction(i, 'LogCosh')}>Log Cosh</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="relative">
+            <DropdownMenu>
+              <DropdownMenuTrigger id={`lossFunction${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{lossFunctionParse(lossFunction)}</DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => handleLossFunction(i, 'meanSquaredError')}>Mean Square Error</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleLossFunction(i, 'Binary_Crossentropy')}>Binary Crossentropy</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleLossFunction(i, 'Categorical_Crossentropy')}>Categorical Crossentropy</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleLossFunction(i, 'LogCosh')}>Log Cosh</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>);
     }
@@ -440,14 +440,14 @@ const FormComponent = () => {
         <div>
           <label htmlFor={`optimizer${i}`}>Optimizer:</label>
           <div className="relative">
-          <DropdownMenu> 
-            <DropdownMenuTrigger id={`optimizer${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{optimizer ? optimizer.charAt(0) + optimizer.slice(1) : ''}</DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleOptimizer(i, 'sgd')}>sgd</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleOptimizer(i, 'adam')}>adam</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleOptimizer(i, 'rmsprop')}>rmsprop</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger id={`optimizer${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{optimizer ? optimizer.charAt(0) + optimizer.slice(1) : ''}</DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => handleOptimizer(i, 'sgd')}>sgd</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleOptimizer(i, 'adam')}>adam</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleOptimizer(i, 'rmsprop')}>rmsprop</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>);
     }
@@ -457,22 +457,28 @@ const FormComponent = () => {
   return (
     <div>
       <header className="bg-black py-4">
-      <div className="container mx-auto px-4 flex justify-between items-center">
-        <Link legacyBehavior href="/" passHref>
-        <h1 className="pl-16 text-white text-2xl font-bold">SIMPL-AI</h1>
-        </Link>
-        <nav className="flex space-x-4">
-          <Link legacyBehavior href="/about" passHref>
-            <a className="text-white pl-16 hover:text-gray-300">Instructions</a>
+        <div className="container mx-auto px-4 flex justify-between items-center">
+          <Link legacyBehavior href="/" passHref>
+            <h1 className="pl-16 text-white text-2xl font-bold">SIMPL-AI</h1>
           </Link>
-          <Link legacyBehavior href="/builder" passHref>
-            <a className="text-white pl-16 hover:text-gray-300 pr-16">Network Builder</a>
-          </Link>
-        </nav>
-      </div>
-    </header>
-    <div className="bg-black text-white font-bol py-6">
-    <h1 className="pt-10 text-8xl font-bold text-center">Network Builder</h1>
+          <nav className="flex space-x-4">
+            <Link legacyBehavior href="/about" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Instructions</a>
+            </Link>
+            <Link legacyBehavior href="/builder" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Network Builder</a>
+            </Link>
+            <Link legacyBehavior href="/train" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Network Trainer</a>
+            </Link>
+            <Link legacyBehavior href="/predict" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Network Predictor</a>
+            </Link>
+          </nav>
+        </div>
+      </header>
+      <div className="bg-black text-white font-bol py-6">
+        <h1 className="pt-10 text-8xl font-bold text-center">Network Builder</h1>
         <div className="flex justify-center">
           <form className="w-1/2" onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -559,7 +565,7 @@ const FormComponent = () => {
               {misc}
             </div>
             <div className="flex justify-center items-center h-screen pb-10">
-              <button type="submit" className="border border-white hover:bg-white hover:text-black hover:border-black bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
+              <button type="submit" className="border border-white hover:text-black hover:border-black bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
             </div>
             <div className="mb-10"></div>
 

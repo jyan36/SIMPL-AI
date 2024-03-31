@@ -71,6 +71,13 @@ const FormComponent = () => {
               <DropdownMenuItem onClick={() => handleActivationCNNChange('tanh')}>Tanh</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+         <label htmlFor="CNNkernelSize">Number of Hidden Layers:</label>
+        <input
+          type="text"
+          id="name"
+          value={CNNnumberOfHiddenLayers}
+          onChange={(e) => setCNNnumberOfHiddenLayers(e.target.value)}
+        />
         </div>
         
       );
@@ -103,7 +110,7 @@ const FormComponent = () => {
       )
     }
     setMisc(hi);
-  }, [networkType]);
+  }, [networkType, CNNkernelSize, CNNactivationFunction, CNNnumberOfHiddenLayers, LSTMfeatures, LSTMtimeSteps, LSTMunits]);
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -208,23 +215,21 @@ const FormComponent = () => {
     setHL(thing);
   }, [numberOfHiddenLayers, hiddenLayers]);
 
-  const [kS, setKS] = useState();
-  useEffect(() => {
-    let thing = [];
-    if (networkType == "cnn") {
-      thing.push(
-        <div>
-          <label htmlFor="CNNkernelSize">Test Split:</label>
-          <input
-            type="text"
-            id="name"
-            value={CNNkernelSize}
-            onChange={(e) => setCNNkernelSize(e.target.value)}
-          />
-        </div>);
-    }
-    setKS(thing);
-  }, [networkType]);
+  // const [kS, setKS] = useState();
+  // useEffect(() => {
+  //   let thing = [];
+  //     thing.push(
+  //       <div>
+  //         <label htmlFor="CNNkernelSize">Test Split:</label>
+  //         <input
+  //           type="text"
+  //           id="name"
+  //           value={CNNkernelSize}
+  //           onChange={(e) => setCNNkernelSize(e.target.value)}
+  //         />
+  //       </div>);
+  //   setKS(thing);
+  // }, [networkType]);
 
   const [iN, setIN] = useState();
   const handleInputChange = (index, value) => {
@@ -285,9 +290,9 @@ const FormComponent = () => {
   }, [lossFunction]);
 
   const handleOptimizer = (index, selectedActivation) => {
-    const updatedOptimizer = [...optiizer];
+    const updatedOptimizer = [...optimizer];
     updatedOptimizer[index] = selectedActivation;
-    setLossFunction(updatedOptimizer);
+    setOptimizer(updatedOptimizer);
   };
 
   const [oP, setOP] = useState([]);
@@ -429,27 +434,6 @@ const FormComponent = () => {
             id="name"
             value={testSplit}
             onChange={(e) => setTestSplit(e.target.value)}
-          />
-        </div>
-        <div>
-          {kS}
-        </div>
-        <div>
-          <label htmlFor="CNNactivationFunction">Test Split:</label>
-          <input
-            type="text"
-            id="name"
-            value={CNNactivationFunction}
-            onChange={(e) => setCNNactivationFunction(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="CNNnumberOfHiddenLayers">Test Split:</label>
-          <input
-            type="text"
-            id="name"
-            value={CNNnumberOfHiddenLayers}
-            onChange={(e) => setCNNnumberOfHiddenLayers(e.target.value)}
           />
         </div>
         <div>

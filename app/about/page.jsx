@@ -30,11 +30,11 @@ const Testing = () => {
         <div className="bg-black pl-5">
           <h2 className="font-bold text-lg mb-2">Model Name:</h2>
           <p className="mb-4">This parameter specifies the name of the AI model.</p>
-          <p className="italic ml-4">Example: modelName = "MyNeuralNetwork"</p>
+          <p className="italic ml-4">Example: modelName = &quot;MyNeuralNetwork&quot;</p>
 
           <h2 className="font-bold text-lg mt-4 mb-2">Network Type:</h2>
           <p className="mb-4">This parameter specifies the type of neural network.</p>
-          <p className="italic ml-4">Example: networkType = "ANN" (Artificial Neural Network)</p>
+          <p className="italic ml-4">Example: networkType = &quot;ANN&quot; (Artificial Neural Network)</p>
 
           <h2 className="font-bold text-lg mt-4 mb-2">Number of Inputs:</h2>
           <p className="mb-4">This parameter specifies the number of inputs for the model.</p>
@@ -42,11 +42,11 @@ const Testing = () => {
 
           <h2 className="font-bold text-lg mt-4 mb-2">Input Names:</h2>
           <p className="mb-4">This parameter specifies a list of input names for the model.</p>
-          <p className="italic ml-4">Example: inputNames = ["input1", "input2", "input3"]</p>
+          <p className="italic ml-4">Example: inputNames = [&quot;input1&quot;, &quot;input2&quot;, &quot;input3&quot;]</p>
 
           <h2 className="font-bold text-lg mt-4 mb-2">Hidden Layers:</h2>
           <p className="mb-4">This parameter specifies the hidden layers for the model.</p>
-          <p className="italic ml-4">Example: hiddenLayers = ["Layer1", "Layer2", "Layer3"]</p>
+          <p className="italic ml-4">Example: hiddenLayers = [&quot;Layer1&quot;, &quot;Layer2&quot;, &quot;Layer3&quot;]</p>
 
           <h2 className="font-bold text-lg mt-4 mb-2">Number of Nodes:</h2>
           <p className="mb-4">This parameter specifies the number of nodes in each hidden layer.</p>
@@ -54,23 +54,23 @@ const Testing = () => {
 
           <h2 className="font-bold text-lg mt-4 mb-2">Activation Function:</h2>
           <p className="mb-4">This parameter specifies the activation function for the model.</p>
-          <p className="italic ml-4">Example: activationFunction = "Relu"</p>
+          <p className="italic ml-4">Example: activationFunction = &quot;Relu&quot;</p>
 
           <h2 className="font-bold text-lg mt-4 mb-2">Regularization:</h2>
           <p className="mb-4">This parameter specifies the regularization type and parameter.</p>
-          <p className="italic ml-4">Example: regularization.type = "L2", regularization.param = 0.001</p>
+          <p className="italic ml-4">Example: regularization.type = &quot;L2&quot;, regularization.param = 0.001</p>
 
           <h2 className="font-bold text-lg mt-4 mb-2">For Output Layer:</h2>
           <p className="mb-4">This parameter specifies the settings for the output layer.</p>
-          <p className="italic ml-4">Example: outputLayer: nodes = 10, activationFunction = "Softmax"</p>
+          <p className="italic ml-4">Example: outputLayer: nodes = 10, activationFunction = &quot;Softmax&quot;</p>
 
           <h2 className="font-bold text-lg mt-4 mb-2">Loss Function:</h2>
           <p className="mb-4">This parameter specifies the loss function for training the model.</p>
-          <p className="italic ml-4">Example: lossFunction = "Mean Square Error"</p>
+          <p className="italic ml-4">Example: lossFunction = &quot;Mean Square Error&quot;</p>
 
           <h2 className="font-bold text-lg mt-4 mb-2">Optimizer:</h2>
           <p className="mb-4">This parameter specifies the optimizer for training the model.</p>
-          <p className="italic ml-4">Example: optimizer = "adam"</p>
+          <p className="italic ml-4">Example: optimizer = &quot;adam&quot;</p>
 
           <h2 className="font-bold text-lg mt-4 mb-2">Learning Rate:</h2>
           <p className="mb-4">This parameter specifies the learning rate for training the model.</p>

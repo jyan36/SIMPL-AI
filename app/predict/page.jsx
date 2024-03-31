@@ -110,7 +110,7 @@ const Predict = () => {
                 </div>
 
                 <div className='basis-7/12 h-full w-full bg-blue-500 rounded-lg flex flex-col items-center justify-center gap-2'>
-                    <div className='text-white text-4xl'>The model's prediction is ...</div>
+                    <div className='text-white text-4xl'>The model&apos;s prediction is ...</div>
                     {prediction ? <div className='text-4xl text-orange-400'>{prediction}</div> : <div></div> }
                 </div>
 

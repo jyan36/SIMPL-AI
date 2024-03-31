@@ -75,17 +75,17 @@ export const buildModel = async ({
 
     if (optimizer.toLowerCase() == 'adam') {
       model.compile({
-        optimizer: tf.train.adam(learningRate),
+        optimizer: tf.train.adam(parseFloat(learningRate)),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'sgd') {
       model.compile({
-        optimizer: tf.train.sgd(learningRate),
+        optimizer: tf.train.sgd(parseFloat(learningRate)),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'rmsprop') {
       model.compile({
-        optimizer: tf.train.rmsprop(learningRate),
+        optimizer: tf.train.rmsprop(parseFloat(learningRate)),
         loss: lossFunction,
       });
     }
@@ -118,17 +118,17 @@ export const buildModel = async ({
 
     if (optimizer.toLowerCase() == 'adam') {
       model.compile({
-        optimizer: tf.train.adam(learningRate),
+        optimizer: tf.train.adam(parseFloat(learningRate)),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'sgd') {
       model.compile({
-        optimizer: tf.train.sgd(learningRate),
+        optimizer: tf.train.sgd(parseFloat(learningRate)),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'rmsprop') {
       model.compile({
-        optimizer: tf.train.rmsprop(learningRate),
+        optimizer: tf.train.rmsprop(parseFloat(learningRate)),
         loss: lossFunction,
       });
     }
@@ -161,17 +161,17 @@ export const buildModel = async ({
 
     if (optimizer.toLowerCase() == 'adam') {
       model.compile({
-        optimizer: tf.train.adam(learningRate),
+        optimizer: tf.train.adam(parseFloat(learningRate)),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'sgd') {
       model.compile({
-        optimizer: tf.train.sgd(learningRate),
+        optimizer: tf.train.sgd(parseFloat(learningRate)),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'rmsprop') {
       model.compile({
-        optimizer: tf.train.rmsprop(learningRate),
+        optimizer: tf.train.rmsprop(parseFloat(learningRate)),
         loss: lossFunction,
       });
     }
@@ -244,17 +244,17 @@ export const trainModel = async ({
 
     if (optimizer.toLowerCase() == 'adam') {
       model.compile({
-        optimizer: tf.train.adam(parseInt(learningRate)),
+        optimizer: tf.train.adam(parseFloat(learningRate)),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'sgd') {
       model.compile({
-        optimizer: tf.train.sgd(parseInt(learningRate)),
+        optimizer: tf.train.sgd(parseFloat(learningRate)),
         loss: lossFunction,
       });
     } else if (optimizer.toLowerCase() == 'rmsprop') {
       model.compile({
-        optimizer: tf.train.rmsprop(parseInt(learningRate)),
+        optimizer: tf.train.rmsprop(parseFloat(learningRate)),
         loss: lossFunction,
       });
     }
@@ -301,12 +301,12 @@ const BuildModel = () => {
     LSTMactivation: 'tanh'
   };
 
+  
+
   useEffect(() => {
 
     const JSONmodelProps2 = localStorage.getItem('model-params');
     const modelProps2 = JSON.parse(JSONmodelProps2);
-
-    console.log(modelProps);
 
     buildModel(modelProps2);
     trainModel(modelProps2);

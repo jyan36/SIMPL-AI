@@ -28,9 +28,10 @@ export const buildModel = async ({
 
   let model = tf.sequential();
   if (networkType.toLowerCase() == 'ann') {
+
     model.add(tf.layers.dense({
-      units: numberOfInputs,
-      inputShape: [numberOfInputs,],
+      units: parseInt(numberOfInputs),
+      inputShape: [parseInt(numberOfInputs),],
       kernelInitializer: 'heNormal'
     }))
 
@@ -91,8 +92,8 @@ export const buildModel = async ({
   }
   else if (networkType.toLowerCase() == 'cnn') {
     model.add(tf.layers.conv2d({
-      inputShape: [numberOfInputs, numberOfInputs, 1],
-      kernelSize: CNNkernelSize,
+      inputShape: [parseInt(numberOfInputs), parseInt(numberOfInputs), 1],
+      kernelSize: parseInt(CNNkernelSize),
       filters: 1,
       kernelInitializer: 'heNormal',
       activation: CNNactivationFunction
@@ -109,7 +110,7 @@ export const buildModel = async ({
 
     model.add(tf.layers.flatten());
     model.add(tf.layers.dense({
-      units: outputLayer.nodes,
+      units: parseInt(outputLayer.nodes),
       activation: outputLayer.activationFunction,
       metrics: ['accuracy']
     }))
@@ -153,7 +154,7 @@ export const buildModel = async ({
     }))
 
     model.add(tf.layers.dense({
-      units: outputLayer.nodes,
+      units: parseInt(outputLayer.nodes),
       activation: outputLayer.activationFunction,
       metrics: ['accuracy']
     }));
@@ -229,8 +230,8 @@ export const trainModel = async ({
   trainData.forEachAsync((d) => {
     const arr = Object.values(d);
 
-    let arr1 = arr.slice(0, numberOfInputs);
-    let arr2 = arr.slice(numberOfInputs, arr.length);
+    let arr1 = arr.slice(0, parseInt(numberOfInputs));
+    let arr2 = arr.slice(parseInt(numberOfInputs), arr.length);
 
     inputarray.push([...arr1]);
     outputarray.push([...arr2]);
@@ -238,8 +239,8 @@ export const trainModel = async ({
     console.log(inputarray);
     console.log(outputarray);
 
-    const inputTensor = tf.tensor2d(inputarray, [inputarray.length, numberOfInputs]);
-    const outputTensor = tf.tensor2d(outputarray, [outputarray.length, outputLayer.nodes]);
+    const inputTensor = tf.tensor2d(inputarray, [inputarray.length, parseInt(numberOfInputs)]);
+    const outputTensor = tf.tensor2d(outputarray, [outputarray.length, parseInt(outputLayer.nodes)]);
 
     if (optimizer.toLowerCase() == 'adam') {
       model.compile({
@@ -274,11 +275,6 @@ export const trainModel = async ({
 
 const BuildModel = () => {
 
-  const JSONmodelProps2 = localStorage.getItem('model-params');
-  const modelProps2 = JSON.parse(JSONmodelProps2);
-
-  console.log(modelProps2)
-
   const modelProps = {
     modelName: 'exampleModel',
     networkType: 'ANN',
@@ -306,6 +302,11 @@ const BuildModel = () => {
   };
 
   useEffect(() => {
+
+    const JSONmodelProps2 = localStorage.getItem('model-params');
+    const modelProps2 = JSON.parse(JSONmodelProps2);
+
+    console.log(modelProps);
 
     buildModel(modelProps2);
     trainModel(modelProps2);

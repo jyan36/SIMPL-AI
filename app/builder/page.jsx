@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { buildModel, trainModel } from './utils'
+import { useRouter } from 'next/navigation';
 
 import {
   DropdownMenu,
@@ -13,8 +14,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 
+
 const FormComponent = () => {
   // Define state variables for form inputs
+  const router = useRouter();
+
   const [modelName, setModelName] = useState('');
   const [networkType, setNetworkType] = useState('ANN');
   const [numberOfInputs, setNumberOfInputs] = useState(0);
@@ -44,11 +48,11 @@ const FormComponent = () => {
 
 
   useEffect(() => {
-    let hi = ['Mean Square Error'];
+    let hi = 'meanSquaredError';
     setLossFunction(hi);
-    let bye = ['SGD'];
+    let bye = 'sgd';
     setOptimizer(bye);
-    let oof = ['relu'];
+    let oof = 'relu';
     setCNNactivationFunction(oof);
     let t = { nodes: 0, activation: "relu" };
     setOutputLayer(t);
@@ -174,50 +178,52 @@ const FormComponent = () => {
 
     localStorage.setItem('model-params', jsonString)
 
-    buildModel({
-      modelName: parseInt(modelName),
-      networkType: networkType,
-      numberOfInputs: parseInt(numberOfInputs),
-      inputNames: inputNames,
-      hiddenLayers: hiddenLayers,
-      outputLayer: outputLayer,
-      lossFunction: lossFunction,
-      optimizer: optimizer,
-      learningRate: parseInt(learningRate),
-      batchSize: parseInt(batchSize),
-      epochs: parseInt(epochs),
-      testSplit: parseFloat(testSplit),
-      CNNkernelSize: parseInt(CNNkernelSize),
-      CNNnumberOfHiddenLayers: parseInt(CNNnumberOfHiddenLayers),
-      CNNactivationFunction: CNNactivationFunction,
-      LSTMtimeSteps: parseInt(LSTMtimeSteps),
-      LSTMunits: parseInt(LSTMunits),
-      LSTMfeatures: parseInt(LSTMfeatures),
-      LSTMnumberOfHiddenLayers: parseInt(LSTMnumberOfHiddenLayers),
-      LSTMactivation: LSTMactivation
-    })
-    trainModel({
-      modelName,
-      networkType,
-      numberOfInputs,
-      inputNames,
-      hiddenLayers,
-      outputLayer,
-      lossFunction,
-      optimizer,
-      learningRate,
-      batchSize,
-      epochs,
-      testSplit,
-      CNNkernelSize,
-      CNNnumberOfHiddenLayers,
-      CNNactivationFunction,
-      LSTMtimeSteps,
-      LSTMunits,
-      LSTMfeatures,
-      LSTMnumberOfHiddenLayers,
-      LSTMactivation
-    })
+    router.push('/build');
+
+    // buildModel({
+    //   modelName: parseInt(modelName),
+    //   networkType: networkType,
+    //   numberOfInputs: parseInt(numberOfInputs),
+    //   inputNames: inputNames,
+    //   hiddenLayers: hiddenLayers,
+    //   outputLayer: outputLayer,
+    //   lossFunction: lossFunction,
+    //   optimizer: optimizer,
+    //   learningRate: parseInt(learningRate),
+    //   batchSize: parseInt(batchSize),
+    //   epochs: parseInt(epochs),
+    //   testSplit: parseFloat(testSplit),
+    //   CNNkernelSize: parseInt(CNNkernelSize),
+    //   CNNnumberOfHiddenLayers: parseInt(CNNnumberOfHiddenLayers),
+    //   CNNactivationFunction: CNNactivationFunction,
+    //   LSTMtimeSteps: parseInt(LSTMtimeSteps),
+    //   LSTMunits: parseInt(LSTMunits),
+    //   LSTMfeatures: parseInt(LSTMfeatures),
+    //   LSTMnumberOfHiddenLayers: parseInt(LSTMnumberOfHiddenLayers),
+    //   LSTMactivation: LSTMactivation
+    // })
+    // trainModel({
+    //   modelName,
+    //   networkType,
+    //   numberOfInputs,
+    //   inputNames,
+    //   hiddenLayers,
+    //   outputLayer,
+    //   lossFunction,
+    //   optimizer,
+    //   learningRate,
+    //   batchSize,
+    //   epochs,
+    //   testSplit,
+    //   CNNkernelSize,
+    //   CNNnumberOfHiddenLayers,
+    //   CNNactivationFunction,
+    //   LSTMtimeSteps,
+    //   LSTMunits,
+    //   LSTMfeatures,
+    //   LSTMnumberOfHiddenLayers,
+    //   LSTMactivation
+    // })
 
 
     console.log('Form submitted:', { modelName, networkType, numberOfInputs, inputNames, numberOfHiddenLayers, hiddenLayers, outputLayer, lossFunction, optimizer, learningRate, batchSize, epochs, validationSplit, testSplit });
@@ -378,9 +384,9 @@ const FormComponent = () => {
   }, [numberOfInputs, inputNames]);
 
   const handleLossFunction = (index, selectedActivation) => {
-    const updatedLossFunction = [...lossFunction];
-    updatedLossFunction[index] = selectedActivation;
-    setLossFunction(updatedLossFunction);
+    // const updatedLossFunction = [...lossFunction];
+    // updatedLossFunction[index] = selectedActivation;
+    setLossFunction(selectedActivation);
   };
 
   const [lF, setLF] = useState([]);
@@ -393,7 +399,7 @@ const FormComponent = () => {
           <DropdownMenu>
             <DropdownMenuTrigger id={`lossFunction${i}`}>{lossFunction[i] ? lossFunction[i].charAt(0).toUpperCase() + lossFunction[i].slice(1) : ''}</DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleLossFunction(i, 'Mean_Square_Error')}>Mean Square Error</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleLossFunction(i, 'meanSquaredError')}>Mean Square Error</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleLossFunction(i, 'Binary_Crossentropy')}>Binary Crossentropy</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleLossFunction(i, 'Categorical_Crossentropy')}>Categorical Crossentropy</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleLossFunction(i, 'LogCosh')}>Log Cosh</DropdownMenuItem>
@@ -405,9 +411,9 @@ const FormComponent = () => {
   }, [lossFunction]);
 
   const handleOptimizer = (index, selectedActivation) => {
-    const updatedOptimizer = [...optimizer];
-    updatedOptimizer[index] = selectedActivation;
-    setOptimizer(updatedOptimizer);
+    // const updatedOptimizer = [...optimizer];
+    // updatedOptimizer[index] = selectedActivation;
+    setOptimizer(selectedActivation);
   };
 
   const [oP, setOP] = useState([]);

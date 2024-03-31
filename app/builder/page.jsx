@@ -45,6 +45,8 @@ const FormComponent = () => {
     setLossFunction(hi);
     let bye = ['SGD'];
     setOptimizer(bye);
+    let t = {nodes: 0, activation: "relu"};
+    setOutputLayer(t);
   }, []);
   
 
@@ -150,13 +152,13 @@ const FormComponent = () => {
 
   const handleChangeNumberOfNodes = (index, value) => {
     const updatedChange = [...hiddenLayers];
-    updatedChange[index] = value;
+    updatedChange[index].nodes = value;
     setHiddenLayers(updatedChange);
   };
 
   const handleRegularizationType = (index, selectedActivation) => {
     const updatedHiddenLayers = [...hiddenLayers];
-    updatedHiddenLayers[index].activation = selectedActivation;
+    updatedHiddenLayers[index].regularization.type = selectedActivation;
     setHiddenLayers(updatedHiddenLayers);
   };
 
@@ -374,7 +376,7 @@ const FormComponent = () => {
           />
           <label htmlFor={`outact`}>Activation Function</label>
           <DropdownMenu>
-            <DropdownMenuTrigger id={`outact`}>{outputLayer ? outputLayer.activation.charAt(0).toUpperCase() + outputLayer.activation.substring(1) : ''}</DropdownMenuTrigger>
+            <DropdownMenuTrigger id={`outact`}>{outputLayer?.activation ? outputLayer.activation.charAt(0).toUpperCase() + outputLayer.activation.substring(1) : ''}</DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleActivationOutChange('relu')}>Relu</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleActivationOutChange('selu')}>Selu</DropdownMenuItem>

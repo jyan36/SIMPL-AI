@@ -117,7 +117,7 @@ const Home = () => {
       </div>
     );
   }
-
+  
   return (
     <div>
       <header className="bg-black py-4 relative">

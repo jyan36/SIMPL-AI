@@ -2,33 +2,36 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { input } from '@tensorflow/tfjs';
 
 const Predict = () => {
     const [inputParams, setInputParams] = useState(null);
     const [inputList, setInputList] = useState({});
 
-    
     useEffect(() => {
         const JSONmodel = localStorage.getItem('model-params');
         const modelProps = JSON.parse(JSONmodel);
         setInputParams(modelProps.inputNames);
-
-        //console.log(inputParams)
     }, []);
 
     useEffect(() => {
         if (inputParams) {
-            const emptyInputList = inputParams.map((name) => {name: ''})
-            console.log(inputParams);
+            // Create an empty object with keys derived from inputParams
+            const emptyInputList = inputParams.reduce((acc, name) => {
+                acc[name] = '';
+                return acc;
+            }, {});
+            setInputList(emptyInputList);
+            console.log(emptyInputList);
         }
-    }, [inputParams])
+    }, [inputParams]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setInputList(inputList => ({
-            ...inputList,
-            [name]: value
-        }));
+    const handleChange = (e, name) => {
+        const { value } = e.target;
+        console.log(name);
+        let updatedInputList = inputList;
+        updatedInputList[name] = value;
+        setInputList(updatedInputList);
     };
 
     const handleSubmit = (e) => {
@@ -68,7 +71,7 @@ const Predict = () => {
                                             id={`inputParam-${index}`}
                                             className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                             type="text"
-                                            onChange={handleChange}
+                                            onChange={(e) => handleChange(e, inputParam)}
                                             placeholder={inputParam}
                                         />
                                     </div>

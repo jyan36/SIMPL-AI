@@ -389,6 +389,16 @@ const FormComponent = () => {
     setLossFunction(selectedActivation);
   };
 
+  const lossFunctionParse = (lossFunction) => {
+    let loss = lossFunction ? lossFunction.charAt(0).toUpperCase() + lossFunction.slice(1) : '';
+    if (loss != '') {
+      if (loss == "MeanSquaredError") loss = "Mean Square Error";
+      else if (loss == "Binary_Crossentropy") loss = "Binary Crossentropy";
+      else if (loss == "Categorical_Crossentropy") loss = "Categorical Crossentropy";
+      else if (loss == "LogCosh") loss = "Log Cosh";
+    }
+    return loss;
+  }
   const [lF, setLF] = useState([]);
   useEffect(() => {
     let thing = [];
@@ -398,7 +408,7 @@ const FormComponent = () => {
           <label htmlFor={`lossFunction${i}`}>Loss Function:</label>
           <div className = "relative">
           <DropdownMenu>
-            <DropdownMenuTrigger id={`lossFunction${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{lossFunction[i] ? lossFunction[i].charAt(0).toUpperCase() + lossFunction[i].slice(1) : ''}</DropdownMenuTrigger>
+            <DropdownMenuTrigger id={`lossFunction${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{lossFunctionParse(lossFunction)}</DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleLossFunction(i, 'meanSquaredError')}>Mean Square Error</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleLossFunction(i, 'Binary_Crossentropy')}>Binary Crossentropy</DropdownMenuItem>
@@ -427,7 +437,7 @@ const FormComponent = () => {
           <label htmlFor={`optimizer${i}`}>Optimizer:</label>
           <div className="relative">
           <DropdownMenu> 
-            <DropdownMenuTrigger id={`optimizer${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{optimizer[i] ? optimizer[i].charAt(0).toUpperCase() + optimizer[i].slice(1) : ''}</DropdownMenuTrigger>
+            <DropdownMenuTrigger id={`optimizer${i}`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">{optimizer ? optimizer.charAt(0) + optimizer.slice(1) : ''}</DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleOptimizer(i, 'sgd')}>sgd</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleOptimizer(i, 'adam')}>adam</DropdownMenuItem>
@@ -544,7 +554,11 @@ const FormComponent = () => {
             <div className="mb-4">
               {misc}
             </div>
-            <button type="submit" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
+            <div className="flex justify-center items-center h-screen pb-10">
+              <button type="submit" className="border border-white hover:bg-white hover:text-black hover:border-black bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
+            </div>
+            <div className="mb-10"></div>
+
           </form>
         </div>
       </div>

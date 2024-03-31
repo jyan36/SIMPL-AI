@@ -7,13 +7,20 @@ import { JsonView, allExpanded, darkStyles, defaultStyles } from 'react-json-vie
 import 'react-json-view-lite/dist/index.css';
 
 const Home = () => {
-  const router = useRouter();
-
   const [textInput, setTextInput] = useState('');
   const [response, setResponse] = useState(null);
   const [finalJSON, setFinalJSON] = useState(null);
   const [printedJSON, setPrintedJSON] = useState(null);
   const [redirect, setRedirect] = useState(false);
+
+  const handleDownload = () => {
+    const element = document.createElement("a");
+    const file = new Blob([JSON.stringify(printedJSON)], { type: 'application/json' });
+    element.href = URL.createObjectURL(file);
+    element.download = "network.json";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+  };
 
   const model = new VertexAI({
     authOptions: {
@@ -94,11 +101,19 @@ const Home = () => {
 
   if (redirect) {
     return (
-      <div className="container mx-auto p-4 bg-black text-white">
-        <h1 className="text-2xl font-bold mb-4">JSON Data</h1>
-        {printedJSON && (
-          <JsonView data={printedJSON} shouldExpandNode={allExpanded} style={darkStyles} />
-        )}
+      <div className="container min-h-screen mx-auto p-4 bg-black">
+        <div className="container mx-auto py-5 p-4 bg-black text-white">
+          <h1 className="text-2xl font-bold mb-4">JSON Data</h1>
+          {printedJSON && (
+            <JsonView data={printedJSON} shouldExpandNode={allExpanded} style={darkStyles} />
+          )}
+
+          <br />
+
+          <button className="bg-blue-500 text-white py-5 p-2 rounded-full" type="button" onClick={handleDownload}>
+            Download JSON
+          </button>
+        </div>
       </div>
     );
   }

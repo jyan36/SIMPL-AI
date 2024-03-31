@@ -215,7 +215,7 @@ const FormComponent = () => {
   const handleActivationLSTMChange = (selectedActivation) => {
     let updatedLSTM = LSTMactivation;
     updatedLSTM = selectedActivation;
-    setHiddenLayers(updatedLSTM);
+    setHandleActivationLSTMChange(updatedLSTM);
   };
 
 
@@ -423,8 +423,8 @@ const FormComponent = () => {
       <div class="bg-black text-white font-bold">
         <h1 class="text-8xl font-bold mb-16 ml-4 mt-16">Network Builder</h1>
         <div className="flex justify-center">
-          <form class="w-1/2">
-            <div class="mb-4">
+          <form class="w-1/2" onSubmit={handleSubmit}>
+          <div class="mb-4">
               <label for="modelName" class="block mb-2">Model Name:</label>
               <input type="text" id="modelName" value={modelName} onChange={(e) => setModelName(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
@@ -507,7 +507,8 @@ const FormComponent = () => {
             <div class="mb-4">
               {misc}
             </div>
-            <button onSubmit={handleSubmit} class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>          </form>
+            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>          
+            </form>
         </div>
       </div>
     </div>

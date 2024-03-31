@@ -4,278 +4,284 @@ import React, { useState, useEffect } from 'react'
 import * as tf from '@tensorflow/tfjs'
 import Link from 'next/link';
 
-export const buildModel = async ({
-  modelName,
-  networkType,
-  numberOfInputs,
-  inputNames,
-  hiddenLayers,
-  outputLayer,
-  lossFunction,
-  optimizer,
-  learningRate,
-  batchSize,
-  epochs,
-  testSplit,
-  CNNkernelSize,
-  CNNnumberOfHiddenLayers,
-  CNNactivationFunction,
-  LSTMtimeSteps,
-  LSTMunits,
-  LSTMfeatures,
-  LSTMnumberOfHiddenLayers,
-  LSTMactivation
-}) => {
 
-  let model = tf.sequential();
-  if (networkType.toLowerCase() == 'ann') {
-    model.add(tf.layers.dense({
-      units: parseInt(numberOfInputs),
-      inputShape: [parseInt(numberOfInputs),],
-      kernelInitializer: 'heNormal'
-    }))
+const BuildModel = () => {
+  const [outputState, setOutputState] = useState([]);
+  const [loss, setLoss] = useState(0);
 
-    hiddenLayers.forEach(obj => {
-      if (obj.regularization.type.toLowerCase() == 'dropout') {
-        model.add(tf.layers.dense({
-          units: parseInt(obj.nodes),
-          activation: obj.activation,
-          kernelInitializer: 'heNormal',
-          dropout: parseFloat(obj.regularization.param),
-        }))
-      } else if (obj.regularization.type.toLowerCase() == 'l2') {
-        model.add(tf.layers.dense({
-          units: parseInt(obj.nodes),
-          activation: obj.activation,
-          kernelInitializer: 'heNormal',
-          dropout: tf.regularizers.l2({ l2: parseFloat(obj.regularization.param) }),
-        }))
-      } else if (obj.regularization.type.toLowerCase() == "l1") {
-        model.add(tf.layers.dense({
-          units: parseInt(obj.nodes),
-          activation: obj.activation,
-          kernelInitializer: 'heNormal',
-          dropout: tf.regularizers.l1({ l1: parseFloat(obj.regularization.param) }),
-        }))
-      } else {
-        model.add(tf.layers.dense({
-          units: parseInt(obj.nodes),
-          activation: obj.activation,
-          kernelInitializer: 'heNormal',
-        }))
+  const buildModel = async ({
+    modelName,
+    networkType,
+    numberOfInputs,
+    inputNames,
+    hiddenLayers,
+    outputLayer,
+    lossFunction,
+    optimizer,
+    learningRate,
+    batchSize,
+    epochs,
+    testSplit,
+    CNNkernelSize,
+    CNNnumberOfHiddenLayers,
+    CNNactivationFunction,
+    LSTMtimeSteps,
+    LSTMunits,
+    LSTMfeatures,
+    LSTMnumberOfHiddenLayers,
+    LSTMactivation
+  }) => {
+
+    let model = tf.sequential();
+    if (networkType.toLowerCase() == 'ann') {
+      model.add(tf.layers.dense({
+        units: parseInt(numberOfInputs),
+        inputShape: [parseInt(numberOfInputs),],
+        kernelInitializer: 'heNormal'
+      }))
+
+      hiddenLayers.forEach(obj => {
+        if (obj.regularization.type.toLowerCase() == 'dropout') {
+          model.add(tf.layers.dense({
+            units: parseInt(obj.nodes),
+            activation: obj.activation,
+            kernelInitializer: 'heNormal',
+            dropout: parseFloat(obj.regularization.param),
+          }))
+        } else if (obj.regularization.type.toLowerCase() == 'l2') {
+          model.add(tf.layers.dense({
+            units: parseInt(obj.nodes),
+            activation: obj.activation,
+            kernelInitializer: 'heNormal',
+            dropout: tf.regularizers.l2({ l2: parseFloat(obj.regularization.param) }),
+          }))
+        } else if (obj.regularization.type.toLowerCase() == "l1") {
+          model.add(tf.layers.dense({
+            units: parseInt(obj.nodes),
+            activation: obj.activation,
+            kernelInitializer: 'heNormal',
+            dropout: tf.regularizers.l1({ l1: parseFloat(obj.regularization.param) }),
+          }))
+        } else {
+          model.add(tf.layers.dense({
+            units: parseInt(obj.nodes),
+            activation: obj.activation,
+            kernelInitializer: 'heNormal',
+          }))
+        }
+      });
+
+      model.add(tf.layers.dense({
+        units: parseInt(outputLayer.nodes),
+        activation: outputLayer.activationFunction,
+        metrics: ['accuracy']
+      }))
+
+
+      if (optimizer.toLowerCase() == 'adam') {
+        model.compile({
+          optimizer: tf.train.adam(learningRate),
+          loss: lossFunction,
+        });
+      } else if (optimizer.toLowerCase() == 'sgd') {
+        model.compile({
+          optimizer: tf.train.sgd(learningRate),
+          loss: lossFunction,
+        });
+      } else if (optimizer.toLowerCase() == 'rmsprop') {
+        model.compile({
+          optimizer: tf.train.rmsprop(learningRate),
+          loss: lossFunction,
+        });
       }
-    });
-
-    model.add(tf.layers.dense({
-      units: parseInt(outputLayer.nodes),
-      activation: outputLayer.activationFunction,
-      metrics: ['accuracy']
-    }))
-
-
-    if (optimizer.toLowerCase() == 'adam') {
-      model.compile({
-        optimizer: tf.train.adam(learningRate),
-        loss: lossFunction,
-      });
-    } else if (optimizer.toLowerCase() == 'sgd') {
-      model.compile({
-        optimizer: tf.train.sgd(learningRate),
-        loss: lossFunction,
-      });
-    } else if (optimizer.toLowerCase() == 'rmsprop') {
-      model.compile({
-        optimizer: tf.train.rmsprop(learningRate),
-        loss: lossFunction,
-      });
     }
-  }
-  else if (networkType.toLowerCase() == 'cnn') {
-    model.add(tf.layers.conv2d({
-      inputShape: [parseInt(numberOfInputs), parseInt(numberOfInputs), 1],
-      kernelSize: CNNkernelSize,
-      filters: 1,
-      kernelInitializer: 'heNormal',
-      activation: CNNactivationFunction
-    }))
-
-    for (let i = 1; i <= CNNnumberOfHiddenLayers; i++) {
+    else if (networkType.toLowerCase() == 'cnn') {
       model.add(tf.layers.conv2d({
+        inputShape: [parseInt(numberOfInputs), parseInt(numberOfInputs), 1],
         kernelSize: CNNkernelSize,
         filters: 1,
         kernelInitializer: 'heNormal',
         activation: CNNactivationFunction
       }))
-    }
 
-    model.add(tf.layers.flatten());
-    model.add(tf.layers.dense({
-      units: parseInt(outputLayer.nodes),
-      activation: outputLayer.activationFunction,
-      metrics: ['accuracy']
-    }))
+      for (let i = 1; i <= CNNnumberOfHiddenLayers; i++) {
+        model.add(tf.layers.conv2d({
+          kernelSize: CNNkernelSize,
+          filters: 1,
+          kernelInitializer: 'heNormal',
+          activation: CNNactivationFunction
+        }))
+      }
+
+      model.add(tf.layers.flatten());
+      model.add(tf.layers.dense({
+        units: parseInt(outputLayer.nodes),
+        activation: outputLayer.activationFunction,
+        metrics: ['accuracy']
+      }))
 
 
-    if (optimizer.toLowerCase() == 'adam') {
-      model.compile({
-        optimizer: tf.train.adam(learningRate),
-        loss: lossFunction,
-      });
-    } else if (optimizer.toLowerCase() == 'sgd') {
-      model.compile({
-        optimizer: tf.train.sgd(learningRate),
-        loss: lossFunction,
-      });
-    } else if (optimizer.toLowerCase() == 'rmsprop') {
-      model.compile({
-        optimizer: tf.train.rmsprop(learningRate),
-        loss: lossFunction,
-      });
-    }
-  } else if (networkType.toLowerCase() == 'rnn') {
-    model.add(tf.layers.lstm({
-      units: LSTMunits,
-      returnSequences: true,
-      inputShape: [LSTMtimeSteps, LSTMfeatures],
-      activation: LSTMactivation
-    }))
-
-    for (let i = 0; i < LSTMnumberOfHiddenLayers; i++) {
+      if (optimizer.toLowerCase() == 'adam') {
+        model.compile({
+          optimizer: tf.train.adam(learningRate),
+          loss: lossFunction,
+        });
+      } else if (optimizer.toLowerCase() == 'sgd') {
+        model.compile({
+          optimizer: tf.train.sgd(learningRate),
+          loss: lossFunction,
+        });
+      } else if (optimizer.toLowerCase() == 'rmsprop') {
+        model.compile({
+          optimizer: tf.train.rmsprop(learningRate),
+          loss: lossFunction,
+        });
+      }
+    } else if (networkType.toLowerCase() == 'rnn') {
       model.add(tf.layers.lstm({
         units: LSTMunits,
         returnSequences: true,
+        inputShape: [LSTMtimeSteps, LSTMfeatures],
         activation: LSTMactivation
       }))
-    }
 
-    model.add(tf.layers.lstm({
-      units: LSTMunits,
-      activation: LSTMactivation
-    }))
-
-    model.add(tf.layers.dense({
-      units: parseInt(outputLayer.nodes),
-      activation: outputLayer.activationFunction,
-      metrics: ['accuracy']
-    }));
-
-    if (optimizer.toLowerCase() == 'adam') {
-      model.compile({
-        optimizer: tf.train.adam(learningRate),
-        loss: lossFunction,
-      });
-    } else if (optimizer.toLowerCase() == 'sgd') {
-      model.compile({
-        optimizer: tf.train.sgd(learningRate),
-        loss: lossFunction,
-      });
-    } else if (optimizer.toLowerCase() == 'rmsprop') {
-      model.compile({
-        optimizer: tf.train.rmsprop(learningRate),
-        loss: lossFunction,
-      });
-    }
-  }
-
-  const modelJSON = model.toJSON();
-  const saveResults = await model.save('indexeddb://my-model-1');
-
-  // const saveResult = await model.save('localstorage://my-model');
-  // console.log(saveResult);
-
-  // const jsonBlob = new Blob([JSON.stringify(modelJSON)], { type: 'application/json' });
-  // const downloadLink = document.createElement('a');
-  // downloadLink.href = URL.createObjectURL(jsonBlob);
-  // downloadLink.download = 'model.json';
-  // downloadLink.click();
-
-  //return modelJSON;
-}
-
-export const trainModel = async ({
-  modelName,
-  networkType,
-  numberOfInputs,
-  inputNames,
-  hiddenLayers,
-  outputLayer,
-  lossFunction,
-  optimizer,
-  learningRate,
-  batchSize,
-  epochs,
-  testSplit,
-  CNNkernelSize,
-  CNNnumberOfHiddenLayers,
-  CNNactivationFunction,
-  LSTMtimeSteps,
-  LSTMunits,
-  LSTMfeatures,
-  LSTMnumberOfHiddenLayers,
-  LSTMactivation
-}) => {
-
-  const model = await tf.loadLayersModel('indexeddb://my-model-1');
-
-  const trainData = tf.data.csv(
-    'XOR_Data.csv', {
-    hasHeader: true,
-  }
-  );
-
-  console.log(trainData)
-
-  let inputarray = [];
-  let outputarray = [];
-  trainData.forEachAsync((d) => {
-    const arr = Object.values(d);
-
-    let arr1 = arr.slice(0, parseInt(numberOfInputs));
-    let arr2 = arr.slice(parseInt(numberOfInputs), arr.length);
-
-    inputarray.push([...arr1]);
-    outputarray.push([...arr2]);
-  }).then(() => {
-    console.log(inputarray);
-    console.log(outputarray);
-
-    const inputTensor = tf.tensor2d(inputarray, [inputarray.length, parseInt(numberOfInputs)]);
-    const outputTensor = tf.tensor2d(outputarray, [outputarray.length, parseInt(outputLayer.nodes)]);
-
-    if (optimizer.toLowerCase() == 'adam') {
-      model.compile({
-        optimizer: tf.train.adam(learningRate),
-        loss: lossFunction,
-      });
-    } else if (optimizer.toLowerCase() == 'sgd') {
-      model.compile({
-        optimizer: tf.train.sgd(parseFloat(learningRate)),
-        loss: lossFunction,
-      });
-    } else if (optimizer.toLowerCase() == 'rmsprop') {
-      model.compile({
-        optimizer: tf.train.rmsprop(parseFloat(learningRate)),
-        loss: lossFunction,
-      });
-    }
-
-    model.fit(inputTensor, outputTensor, {
-      epochs: parseInt(epochs),
-      callbacks: {
-        onEpochEnd: (epoch, logs) => {
-          console.log(`Epoch ${epoch + 1}: loss = ${logs.loss}`);
-        }
+      for (let i = 0; i < LSTMnumberOfHiddenLayers; i++) {
+        model.add(tf.layers.lstm({
+          units: LSTMunits,
+          returnSequences: true,
+          activation: LSTMactivation
+        }))
       }
+
+      model.add(tf.layers.lstm({
+        units: LSTMunits,
+        activation: LSTMactivation
+      }))
+
+      model.add(tf.layers.dense({
+        units: parseInt(outputLayer.nodes),
+        activation: outputLayer.activationFunction,
+        metrics: ['accuracy']
+      }));
+
+      if (optimizer.toLowerCase() == 'adam') {
+        model.compile({
+          optimizer: tf.train.adam(learningRate),
+          loss: lossFunction,
+        });
+      } else if (optimizer.toLowerCase() == 'sgd') {
+        model.compile({
+          optimizer: tf.train.sgd(learningRate),
+          loss: lossFunction,
+        });
+      } else if (optimizer.toLowerCase() == 'rmsprop') {
+        model.compile({
+          optimizer: tf.train.rmsprop(learningRate),
+          loss: lossFunction,
+        });
+      }
+    }
+
+    const modelJSON = model.toJSON();
+    const saveResults = await model.save('indexeddb://my-model-1');
+
+    // const saveResult = await model.save('localstorage://my-model');
+    // console.log(saveResult);
+
+    // const jsonBlob = new Blob([JSON.stringify(modelJSON)], { type: 'application/json' });
+    // const downloadLink = document.createElement('a');
+    // downloadLink.href = URL.createObjectURL(jsonBlob);
+    // downloadLink.download = 'model.json';
+    // downloadLink.click();
+
+    //return modelJSON;
+  }
+
+  const trainModel = async ({
+    modelName,
+    networkType,
+    numberOfInputs,
+    inputNames,
+    hiddenLayers,
+    outputLayer,
+    lossFunction,
+    optimizer,
+    learningRate,
+    batchSize,
+    epochs,
+    testSplit,
+    CNNkernelSize,
+    CNNnumberOfHiddenLayers,
+    CNNactivationFunction,
+    LSTMtimeSteps,
+    LSTMunits,
+    LSTMfeatures,
+    LSTMnumberOfHiddenLayers,
+    LSTMactivation
+  }) => {
+
+    const model = await tf.loadLayersModel('indexeddb://my-model-1');
+
+    const trainData = tf.data.csv(
+      'XOR_Data.csv', {
+      hasHeader: true,
+    }
+    );
+
+    console.log(trainData)
+
+    let inputarray = [];
+    let outputarray = [];
+    trainData.forEachAsync((d) => {
+      const arr = Object.values(d);
+
+      let arr1 = arr.slice(0, parseInt(numberOfInputs));
+      let arr2 = arr.slice(parseInt(numberOfInputs), arr.length);
+
+      inputarray.push([...arr1]);
+      outputarray.push([...arr2]);
     }).then(() => {
-      model.save('indexeddb://my-model-2');
+      console.log(inputarray);
+      console.log(outputarray);
+
+      const inputTensor = tf.tensor2d(inputarray, [inputarray.length, parseInt(numberOfInputs)]);
+      const outputTensor = tf.tensor2d(outputarray, [outputarray.length, parseInt(outputLayer.nodes)]);
+
+      if (optimizer.toLowerCase() == 'adam') {
+        model.compile({
+          optimizer: tf.train.adam(learningRate),
+          loss: lossFunction,
+        });
+      } else if (optimizer.toLowerCase() == 'sgd') {
+        model.compile({
+          optimizer: tf.train.sgd(parseFloat(learningRate)),
+          loss: lossFunction,
+        });
+      } else if (optimizer.toLowerCase() == 'rmsprop') {
+        model.compile({
+          optimizer: tf.train.rmsprop(parseFloat(learningRate)),
+          loss: lossFunction,
+        });
+      }
+
+      model.fit(inputTensor, outputTensor, {
+        epochs: parseInt(epochs),
+        callbacks: {
+          onEpochEnd: (epoch, logs) => {
+            console.log(`Epoch ${epoch + 1}: loss = ${logs.loss}`);
+
+            let newOutputState = [...outputState, `Epoch ${epoch + 1}: loss = ${logs.loss}`];
+            console.log(newOutputState);
+            if (newOutputState.length > 10) newOutputState = newOutputState.slice(1, newOutputState.length);
+            setOutputState(newOutputState);
+            setLoss(logs.loss);
+          }
+        }
+      }).then(() => {
+        model.save('indexeddb://my-model-2');
+      });
     });
-  });
-}
-
-
-const BuildModel = () => {
-
-
+  }
 
   const modelProps = {
     modelName: 'exampleModel',
@@ -337,14 +343,14 @@ const BuildModel = () => {
     if (dataImported) {
       // PUT STUFF HERE
       console.log(data);
-      
+
       buildModel(modelProps);
       trainModel(modelProps);
 
     }
 
     buildModel(modelProps);
-      trainModel(modelProps);
+    trainModel(modelProps);
   }
   const handleClick = (e) => {
     e.preventDefault();
@@ -403,7 +409,14 @@ const BuildModel = () => {
           <button className='text-3xl w-[300px] rounded-3xl p-5 bg-gray-500' onClick={handleTrain}>Train</button>
         </div>
         <div className='basis-7/12 h-full bg-green-500'>
-
+          <div className='flex flex-col gap-5 justify-center items-center'>
+            <h1 className='text-3xl py-5'>Output</h1>
+            <div className='flex flex-col gap-5 justify-center items-center'>
+              {outputState.map((output, index) => {
+                return <p key={index} className='text-2xl'>{output}</p>
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </div>

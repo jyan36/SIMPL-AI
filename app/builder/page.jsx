@@ -141,7 +141,53 @@ const FormComponent = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can perform form validation or submit data here
+
+    buildModel({
+      modelName,
+      networkType,
+      numberOfInputs,
+      inputNames,
+      hiddenLayers,
+      outputLayer,
+      lossFunction,
+      optimizer,
+      learningRate,
+      batchSize,
+      epochs,
+      testSplit,
+      CNNkernelSize,
+      CNNnumberOfHiddenLayers,
+      CNNactivationFunction,
+      LSTMtimeSteps,
+      LSTMunits,
+      LSTMfeatures,
+      LSTMnumberOfHiddenLayers,
+      LSTMactivation
+  })
+  trainModel({
+    modelName,
+    networkType,
+    numberOfInputs,
+    inputNames,
+    hiddenLayers,
+    outputLayer,
+    lossFunction,
+    optimizer,
+    learningRate,
+    batchSize,
+    epochs,
+    testSplit,
+    CNNkernelSize,
+    CNNnumberOfHiddenLayers,
+    CNNactivationFunction,
+    LSTMtimeSteps,
+    LSTMunits,
+    LSTMfeatures,
+    LSTMnumberOfHiddenLayers,
+    LSTMactivation
+})
+
+
     console.log('Form submitted:', { modelName, networkType, numberOfInputs, inputNames, numberOfHiddenLayers, hiddenLayers, outputLayer, lossFunction, optimizer, learningRate, batchSize, epochs, validationSplit, testSplit });
   };
 
@@ -459,28 +505,7 @@ const FormComponent = () => {
             <div class="mb-4">
               {misc}
             </div>
-            <button onSubmit={buildModel(
-              modelName,
-              networkType,
-              numberOfInputs,
-              inputNames,
-              hiddenLayers,
-              outputLayer,
-              lossFunction,
-              optimizer,
-              learningRate,
-              batchSize,
-              epochs,
-              testSplit,
-              CNNkernelSize,
-              CNNnumberOfHiddenLayers,
-              CNNactivationFunction,
-              LSTMtimeSteps,
-              LSTMunits,
-              LSTMfeatures,
-              LSTMnumberOfHiddenLayers,
-              LSTMactivation
-            )} type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>          </form>
+            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>          </form>
         </div>
       </div>
     </div>

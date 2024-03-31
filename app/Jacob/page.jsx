@@ -1,12 +1,13 @@
 "use client"
 
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { VertexAI } from "@langchain/google-vertexai-web";
 
 const Testing = () => {
   const [input, setInput] = useState('');
   const [response, setResponse] = useState(null);
+  const [finalJSON, setFinalJSON] = useState(null);
 
   const model = new VertexAI({
     authOptions: {
@@ -40,6 +41,30 @@ const Testing = () => {
     setResponse(res);
   };
 
+  useEffect(() => {
+    const stringifyJSON = async (json) => {
+      let prompt = "Your job is to stringify this JSON object:\n";
+      prompt += json;
+      prompt += "\nMAKE SURE TO RETURN THE STRINGIFIED JSON AND NOTHING ELSE. OUPUT JUST THE RAW STRING SO THAT I CAN PARSE IT USING JSON.PARSE IN MY CODE. OMIT ANY ` SYMBOLS. DO NOT ADD ANYTHING ELSE TO THE OUTPUT JSON.";
+
+      console.log(prompt);
+
+      const res = await model.invoke(prompt);
+      setFinalJSON(res);
+    };
+
+    if (response) {
+      console.log("Reached!");
+      stringifyJSON(response);
+    }
+  }, [response]);
+
+  useEffect(() => {
+    if (finalJSON) {
+      console.log(finalJSON);
+    }
+  }, [finalJSON]);
+
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
@@ -49,14 +74,6 @@ const Testing = () => {
     const top = Math.floor(Math.random() * 90) + 5; // Random top position between 10 and 90
     return { left: `${left}%`, top: `${top}vh` }; // Use vh units for vertical positioning
   };
-
-  useEffect(() => {
-    if (response) {
-      console.log( response );
-
-      
-    }
-  }, [response]);
 
   return (
     <div>

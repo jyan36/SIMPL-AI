@@ -3,14 +3,10 @@
 import { VertexAI } from "@langchain/google-vertexai-web";
 import React, { useState, useEffect } from 'react';
 
-// Vertex AI project ID and model name
-const PROJECT_ID = 'simpl-ai-418817';
-const REGION = 'us-central1';
-const MODEL_NAME = 'gemini-1.0-pro';
-
 const GeminiTest = () => {
     const [textInput, setTextInput] = useState('');
     const [response, setResponse] = useState(null);
+    const [finalJSON, setFinalJSON] = useState(null);
 
     const handleTextChange = (event) => {
         setTextInput(event.target.value);
@@ -42,14 +38,47 @@ const GeminiTest = () => {
         let prompt = "Your job will be to generate a JSON file containing neural network parameters. You will a json with the following parameters, exactly with these names: numberOfInputs, numberOfHiddenLayers, numberOfOutputs, outputActivationFunction, lossFunction (either Mean Square Error, Binary_Crossentropy, Categorical_Crossentropy, LogCosh), optimizer, learningRate, batchSize, epochs, validationSplit, testSplit. Also for each hidden layer you will need a numberOfNodes and activationFunction (Relu, Selu, Sigmoid, Softmax, Linear, Tanh).\n\nExample:\n{\n  \"numberOfInputs\": 2,\n  \"numberOfHiddenLayers\": 2,\n \"numberOfOutputs\": 1,\n \"outputActivationFunction\": linear,\n \"lossFunction\": \"Mean Square Error\",\n  \"optimizer\": \"Adam\",\n  \"learningRate\": 0.001,\n  \"batchSize\": 32,\n  \"epochs\": 100,\n  \"validationSplit\": 0.2,\n  \"testSplit\": 0.2,\n  \"hiddenLayers\": [\n    {\n      \"numberOfNodes\": 4,\n      \"activationFunction\": \"Relu\"\n    },\n    {\n      \"numberOfNodes\": 4,\n      \"activationFunction\": \"Relu\"\n    }\n  ]\n}";
         prompt += "\nGenerate a netowork that does this:\n";
         prompt += textInput;
-        prompt += "\nMAKE SURE TO RETURN THE JSON AND NOTHING ELSE. OUPUT THE RAW JSON CODE SO I CAN USE IT IN MY CODE. OMIT ANY ` SYMBOLS. DO NOT ADD ANYTHING ELSE TO THE OUTPUT JSON. JUST THE JSON";
+        prompt += "\nMAKE SURE TO RETURN THE JSON AND NOTHING ELSE. OUPUT THE RAW JSON CODE SO I CAN USE IT IN MY CODE. OMIT ANY ` SYMBOLS. DO NOT ADD ANYTHING ELSE TO THE OUTPUT JSON. JUST THE JSON.";
         console.log({ prompt });
 
         const res = await model.invoke(prompt);
-        console.log({ res });
+        console.log(res);
 
         setResponse(res);
     };
+
+    useEffect(() => {
+        const stringifyJSON = async (json) => {
+            let prompt = "Can you fix this JSON for me:\n";
+            prompt += json;
+            prompt += "\nMAKE SURE TO RETURN THE REPAIRED JSON AND NOTHING ELSE.";
+
+            console.log(prompt);
+
+            const res = await model.invoke(prompt);
+            setFinalJSON(res);
+        };
+
+        if (response) stringifyJSON(response);
+    }, [response]);
+
+    useEffect(() => {
+        if (finalJSON) {
+            console.log(finalJSON);
+            try {
+                const parsedJSON = JSON.parse(finalJSON);
+                console.log(parsedJSON);
+                console.log(parsedJSON.numberOfInputs);
+            } catch (error) {
+                console.error("Error parsing final JSON:", error);
+                setResponse(null);
+                setFinalJSON(null);
+
+                handleSubmit();
+            }
+            //const parsedJSON = JSON.parse('{"numberOfInputs":2,"numberOfHiddenLayers":2,"numberOfOutputs":1,"outputActivationFunction":"Sigmoid","lossFunction":"Binary_Crossentropy","optimizer":"Adam","learningRate":0.001,"batchSize":32,"epochs":100,"validationSplit":0.2,"testSplit":0.2,"hiddenLayers":[{"numberOfNodes":4,"activationFunction":"Relu"},{"numberOfNodes":4,"activationFunction":"Relu"}]}');
+        }
+    }, [finalJSON]);
 
     return (
         <div>
@@ -63,10 +92,10 @@ const GeminiTest = () => {
             />
             <br />
             <button onClick={handleSubmit}>Submit</button>
-            {response && (
+            {finalJSON && (
                 <div>
                     <h2>Response:</h2>
-                    <p>{response}</p>
+                    <p>{finalJSON}</p>
                 </div>
             )}
         </div>

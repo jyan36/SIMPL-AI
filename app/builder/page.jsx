@@ -57,7 +57,7 @@ const FormComponent = () => {
 
   useEffect(() => {
     let hi = [];
-    if (networkType == 'cnn') {
+    if (networkType == 'CNN') {
       hi.push(
         <div><label htmlFor="CNNkernelSize">Number of Kernels:</label>
           <input
@@ -65,6 +65,7 @@ const FormComponent = () => {
             id="name"
             value={CNNkernelSize}
             onChange={(e) => setCNNkernelSize(e.target.value)}
+            style={{ color: 'black' }}
           />
           <label htmlFor={`cnnAct`}>Activation Function:</label>
           <DropdownMenu>
@@ -84,12 +85,13 @@ const FormComponent = () => {
             id="name"
             value={CNNnumberOfHiddenLayers}
             onChange={(e) => setCNNnumberOfHiddenLayers(e.target.value)}
+            style={{ color: 'black' }}
           />
         </div>
 
       );
     }
-    else if (networkType == 'rnn') {
+    else if (networkType == 'RNN') {
       hi.push(
         <div><label htmlFor="LSTMfeatures">Number of Features:</label>
           <input
@@ -97,6 +99,7 @@ const FormComponent = () => {
             id="name"
             value={LSTMfeatures}
             onChange={(e) => setLSTMfeatures(e.target.value)}
+            style={{ color: 'black' }}
           />
           <label htmlFor="LSTMtimeSteps">Number of Timesteps:</label>
           <input
@@ -104,6 +107,7 @@ const FormComponent = () => {
             id="name"
             value={LSTMtimeSteps}
             onChange={(e) => setLSTMtimesteps(e.target.value)}
+            style={{ color: 'black' }}
           />
           <label htmlFor="LSTMtimeSteps">Number of LSTM Units:</label>
           <input
@@ -111,6 +115,7 @@ const FormComponent = () => {
             id="name"
             value={LSTMunits}
             onChange={(e) => setLSTMunits(e.target.value)}
+            style={{ color: 'black'}}
           />
           <label htmlFor="LSTMnumberOfHiddenLayers">Number of LSTM Hidden Layers:</label>
           <input
@@ -259,6 +264,7 @@ const FormComponent = () => {
             id="name"
             value={hiddenLayers[i] ? hiddenLayers[i].nodes : ''}
             onChange={(e) => handleChangeNumberOfNodes(i, e.target.value)}
+            style={{ color: 'black' }}
           />
           <label htmlFor={`hiddenLayers${i}`}>Hidden Layers:</label>
           <DropdownMenu>
@@ -288,6 +294,7 @@ const FormComponent = () => {
             id="name"
             value={hiddenLayers[i]?.regularization ? hiddenLayers[i].regularization.param : ''}
             onChange={(e) => handleRegularizationParam(i, e.target.value)}
+            style={{ color: 'black' }}
           />
         </div>
       );
@@ -335,6 +342,7 @@ const FormComponent = () => {
             id="name"
             value={inputNames[i]}
             onChange={(e) => handleInputChange(i, e.target.value)}
+            style={{ color: 'black' }}
           />
         </div>
       );
@@ -419,12 +427,12 @@ const FormComponent = () => {
         </div>
       </header>
       <div class="bg-black text-white font-bold">
-        <h1 class="text-8xl font-bold mb-8 ml-4">Network Builder</h1>
+        <h1 class="text-8xl font-bold mb-16 ml-4 mt-16">Network Builder</h1>
         <div class="flex justify-center">
           <form class="w-1/2" onSubmit={handleSubmit}>
             <div class="mb-4">
               <label for="modelName" class="block mb-2">Model Name:</label>
-              <input type="text" id="modelName" value={modelName} onChange={(e) => setModelName(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+              <input type="text" id="modelName" value={modelName} onChange={(e) => setModelName(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
             </div>
             <div class="mb-4">
               <label for="networkType" class="block mb-2">Network Type:</label>
@@ -434,23 +442,23 @@ const FormComponent = () => {
                     {networkType ? networkType.charAt(0).toUpperCase() + networkType.slice(1) : ''}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => handleTypeChange('ann')}>ANN</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleTypeChange('rnn')}>RNN</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleTypeChange('cnn')}>CNN</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleTypeChange('ANN')}>ANN</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleTypeChange('RNN')}>RNN</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleTypeChange('CNN')}>CNN</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
             </div>
             <div class="mb-4">
               <label for="numberOfInputs" class="block mb-2">Number of Inputs:</label>
-              <input type="text" id="numberOfInputs" value={numberOfInputs} onChange={(e) => setNumberOfInputs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+              <input type="text" id="numberOfInputs" value={numberOfInputs} onChange={(e) => setNumberOfInputs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
             </div>
             <div class="mb-4">
               {iN}
             </div>
             <div class="mb-4">
               <label for="numberOfHiddenLayers" class="block mb-2">Number of Hidden Layers:</label>
-              <input type="text" id="numberOfHiddenLayers" value={numberOfHiddenLayers} onChange={(e) => setNumberOfHiddenLayers(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+              <input type="text" id="numberOfHiddenLayers" value={numberOfHiddenLayers} onChange={(e) => setNumberOfHiddenLayers(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
             </div>
             <div class="mb-4">
               {hL}
@@ -458,11 +466,11 @@ const FormComponent = () => {
             <div class="mb-4">
               <h1 class="text-white font-bold">Output Layer</h1>
               <label for="outputLayerNodes" class="block mb-2">Number of Nodes:</label>
-              <input type="text" id="outputLayerNodes" value={outputLayer.nodes} onChange={(e) => handleOutputLayerNodesChange(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white" />
+              <input type="text" id="outputLayerNodes" value={outputLayer.nodes} onChange={(e) => handleOutputLayerNodesChange(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
               <label for={`outact`} class="block mb-2">Activation Function:</label>
               <div class="relative">
                 <DropdownMenu>
-                  <DropdownMenuTrigger id={`outact`} class="px-4 py-2 rounded border border-gray-400 bg-transparent text-white">
+                  <DropdownMenuTrigger id={`outact`} class="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">
                     {outputLayer?.activation ? outputLayer.activation.charAt(0).toUpperCase() + outputLayer.activation.slice(1) : ''}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
@@ -484,23 +492,23 @@ const FormComponent = () => {
             </div>
             <div class="mb-4">
               <label for="learningRate" class="block mb-2">Learning Rate:</label>
-              <input type="text" id="learningRate" value={learningRate} onChange={(e) => setLearningRate(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" />
+              <input type="text" id="learningRate" value={learningRate} onChange={(e) => setLearningRate(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
             </div>
             <div class="mb-4">
               <label for="batchSize" class="block mb-2">Batch Size:</label>
-              <input type="text" id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" />
+              <input type="text" id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
             </div>
             <div class="mb-4">
               <label for="epochs" class="block mb-2">Epochs:</label>
-              <input type="text" id="epochs" value={epochs} onChange={(e) => setEpochs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" />
+              <input type="text" id="epochs" value={epochs} onChange={(e) => setEpochs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
             </div>
             <div class="mb-4">
               <label for="validationSplit" class="block mb-2">Validation Split:</label>
-              <input type="text" id="validationSplit" value={validationSplit} onChange={(e) => setValidationSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" />
+              <input type="text" id="validationSplit" value={validationSplit} onChange={(e) => setValidationSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
             </div>
             <div class="mb-4">
               <label for="testSplit" class="block mb-2">Test Split:</label>
-              <input type="text" id="testSplit" value={testSplit} onChange={(e) => setTestSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" />
+              <input type="text" id="testSplit" value={testSplit} onChange={(e) => setTestSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }}/>
             </div>
             <div class="mb-4">
               {misc}

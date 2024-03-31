@@ -27,7 +27,7 @@ const GeminiTest = () => {
                 "client_id": process.env.NEXT_PUBLIC_GOOGLEAUTH_CLIENT_ID,
                 "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                 "token_uri": "https://oauth2.googleapis.com/token"
-              },
+            },
             temperature: 0.7,
             topP: 0.8,
             topK: 40,
@@ -39,8 +39,14 @@ const GeminiTest = () => {
             return;
         }
 
-        const res = await model.invoke(textInput);
-        console.log({res});
+        let prompt = "Your job will be to generate a JSON file containing neural network parameters. You will a json with the following parameters, exactly with these names: numberOfInputs, numberOfHiddenLayers, numberOfOutputs, outputActivationFunction, lossFunction (either Mean Square Error, Binary_Crossentropy, Categorical_Crossentropy, LogCosh), optimizer, learningRate, batchSize, epochs, validationSplit, testSplit. Also for each hidden layer you will need a numberOfNodes and activationFunction (Relu, Selu, Sigmoid, Softmax, Linear, Tanh).\n\nExample:\n{\n  \"numberOfInputs\": 2,\n  \"numberOfHiddenLayers\": 2,\n \"numberOfOutputs\": 1,\n \"outputActivationFunction\": linear,\n \"lossFunction\": \"Mean Square Error\",\n  \"optimizer\": \"Adam\",\n  \"learningRate\": 0.001,\n  \"batchSize\": 32,\n  \"epochs\": 100,\n  \"validationSplit\": 0.2,\n  \"testSplit\": 0.2,\n  \"hiddenLayers\": [\n    {\n      \"numberOfNodes\": 4,\n      \"activationFunction\": \"Relu\"\n    },\n    {\n      \"numberOfNodes\": 4,\n      \"activationFunction\": \"Relu\"\n    }\n  ]\n}";
+        prompt += "\nGenerate a netowork that does this:\n";
+        prompt += textInput;
+        prompt += "\nMAKE SURE TO RETURN THE JSON AND NOTHING ELSE. OUPUT THE RAW JSON CODE SO I CAN USE IT IN MY CODE. OMIT ANY ` SYMBOLS. DO NOT ADD ANYTHING ELSE TO THE OUTPUT JSON. JUST THE JSON";
+        console.log({ prompt });
+
+        const res = await model.invoke(prompt);
+        console.log({ res });
 
         setResponse(res);
     };

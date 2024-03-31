@@ -27,7 +27,7 @@ const Testing = () => {
         </div>
       </header>
       <main className="bg-black min-h-screen text-white">
-        <div className="bg-gray-200">
+        <div className="bg-black pl-5">
           <h2 className="font-bold text-lg mb-2">Model Name:</h2>
           <p className="mb-4">This parameter specifies the name of the AI model.</p>
           <p className="italic ml-4">Example: modelName = "MyNeuralNetwork"</p>

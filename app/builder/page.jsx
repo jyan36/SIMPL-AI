@@ -178,7 +178,7 @@ const FormComponent = () => {
 
     localStorage.setItem('model-params', jsonString)
 
-    router.push('/build');
+    router.push('/train');
 
     // buildModel({
     //   modelName: parseInt(modelName),
@@ -478,7 +478,7 @@ const FormComponent = () => {
         </div>
       </header>
       <div className="bg-black text-white font-bol py-6">
-        <h1 className="pt-10 text-8xl font-bold text-center">Network Builder</h1>
+        <h1 className="pt-10 text-8xl font-bold text-center mb-5">Network Builder</h1>
         <div className="flex justify-center">
           <form className="w-1/2" onSubmit={handleSubmit}>
             <div className="mb-4">

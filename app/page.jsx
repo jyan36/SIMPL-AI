@@ -76,7 +76,7 @@ const Home = () => {
     if (finalJSON) {
       console.log(finalJSON);
       try {
-        const parsedJSON = JSON.parse('{"numberOfInputs":2,"numberOfHiddenLayers":2,"numberOfOutputs":1,"outputActivationFunction":"Sigmoid","lossFunction":"Binary_Crossentropy","optimizer":"Adam","learningRate":0.01,"batchSize":32,"epochs":100,"validationSplit":0.2,"testSplit":0.2,"hiddenLayers":[{"numberOfNodes":4,"activationFunction":"Sigmoid"},{"numberOfNodes":4,"activationFunction":"Sigmoid"}]}');
+        const parsedJSON = JSON.parse('{"numberOfInputs":2,"numberOfHiddenLayers":2,"numberOfOutputs":1,"outputActivationFunction":"Sigmoid","lossFunction":"Binary_Crossentropy","optimizer":"Adam","learningRate":0.05,"batchSize":32,"epochs":500,"validationSplit":0.2,"testSplit":0.2,"hiddenLayers":[{"numberOfNodes":4,"activationFunction":"Sigmoid"},{"numberOfNodes":4,"activationFunction":"Sigmoid"}]}');
         //const parsedJSON = JSON.parse(finalJSON);
         console.log(parsedJSON);
         console.log(parsedJSON.numberOfInputs);

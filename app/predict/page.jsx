@@ -21,7 +21,7 @@ const Predict = () => {
         
 
         const modelPrediction = model.predict(inputData).dataSync()[0];
-        setPrediction(modelPrediction);
+        setPrediction(modelPrediction.toFixed(7).toString()+"... ≈ "+modelPrediction.toFixed(0).toString());
     }
 
     useEffect(() => {
@@ -111,7 +111,7 @@ const Predict = () => {
 
                 <div className='basis-7/12 h-full w-full bg-blue-500 rounded-lg flex flex-col items-center justify-center gap-2'>
                     <div className='text-white text-4xl'>The model's prediction is ...</div>
-                    {prediction ? <div className='text-white text-4xl'>{prediction}</div> : <div></div> }
+                    {prediction ? <div className='text-4xl text-orange-400'>{prediction}</div> : <div></div> }
                 </div>
 
             </div>

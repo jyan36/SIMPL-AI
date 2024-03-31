@@ -1,6 +1,3 @@
-"use client"
-
-import React, { useEffect } from 'react'
 import * as tf from '@tensorflow/tfjs'
 
 export const buildModel = async ({
@@ -16,7 +13,7 @@ export const buildModel = async ({
   batchSize,
   epochs,
   testSplit,
-  CNNkernalSize,
+  CNNkernelSize,
   CNNnumberOfHiddenLayers,
   CNNactivationFunction,
   LSTMtimeSteps,
@@ -27,7 +24,7 @@ export const buildModel = async ({
 }) => {
 
   let model = tf.sequential();
-  if (networkType == 'ANN') {
+  if (networkType.toLowerCase() == 'ann') {
     model.add(tf.layers.dense({
       units: numberOfInputs,
       inputShape: [numberOfInputs,],
@@ -35,21 +32,21 @@ export const buildModel = async ({
     }))
 
     hiddenLayers.forEach(obj => {
-      if (obj.regularization.type == 'Dropout') {
+      if (obj.regularization.type.toLowerCase() == 'dropout') {
         model.add(tf.layers.dense({
           units: obj.nodes,
           activation: obj.activation,
           kernelInitializer: 'heNormal',
           dropout: obj.regularization.param,
         }))
-      } else if (obj.regularization.type == 'L2') {
+      } else if (obj.regularization.type.toLowerCase() == 'l2') {
         model.add(tf.layers.dense({
           units: obj.nodes,
           activation: obj.activation,
           kernelInitializer: 'heNormal',
           dropout: tf.regularizers.l2({ l2: obj.regularization.param }),
         }))
-      } else if (obj.regularization.type == "L1") {
+      } else if (obj.regularization.type.toLowerCase() == "l1") {
         model.add(tf.layers.dense({
           units: obj.nodes,
           activation: obj.activation,
@@ -72,27 +69,27 @@ export const buildModel = async ({
     }))
 
 
-    if (optimizer == 'adam') {
+    if (optimizer.toLowerCase() == 'adam') {
       model.compile({
         optimizer: tf.train.adam(learningRate),
         loss: lossFunction,
       });
-    } else if (optimizer == 'sgd') {
+    } else if (optimizer.toLowerCase() == 'sgd') {
       model.compile({
         optimizer: tf.train.sgd(learningRate),
         loss: lossFunction,
       });
-    } else if (optimizer == 'rmsprop') {
+    } else if (optimizer.toLowerCase() == 'rmsprop') {
       model.compile({
         optimizer: tf.train.rmsprop(learningRate),
         loss: lossFunction,
       });
     }
   }
-  else if (networkType == 'CNN') {
+  else if (networkType.toLowerCase() == 'cnn') {
     model.add(tf.layers.conv2d({
       inputShape: [numberOfInputs, numberOfInputs, 1],
-      kernelSize: CNNkernalSize,
+      kernelSize: CNNkernelSize,
       filters: 1,
       kernelInitializer: 'heNormal',
       activation: CNNactivationFunction
@@ -100,7 +97,7 @@ export const buildModel = async ({
 
     for (let i = 1; i <= CNNnumberOfHiddenLayers; i++) {
       model.add(tf.layers.conv2d({
-        kernelSize: CNNkernalSize,
+        kernelSize: CNNkernelSize,
         filters: 1,
         kernelInitializer: 'heNormal',
         activation: CNNactivationFunction
@@ -115,23 +112,23 @@ export const buildModel = async ({
     }))
 
 
-    if (optimizer == 'adam') {
+    if (optimizer.toLowerCase() == 'adam') {
       model.compile({
         optimizer: tf.train.adam(learningRate),
         loss: lossFunction,
       });
-    } else if (optimizer == 'sgd') {
+    } else if (optimizer.toLowerCase() == 'sgd') {
       model.compile({
         optimizer: tf.train.sgd(learningRate),
         loss: lossFunction,
       });
-    } else if (optimizer == 'rmsprop') {
+    } else if (optimizer.toLowerCase() == 'rmsprop') {
       model.compile({
         optimizer: tf.train.rmsprop(learningRate),
         loss: lossFunction,
       });
     }
-  } else if (networkType == 'RNN') {
+  } else if (networkType.toLowerCase() == 'rnn') {
     model.add(tf.layers.lstm({
       units: LSTMunits,
       returnSequences: true,
@@ -158,17 +155,17 @@ export const buildModel = async ({
       metrics: ['accuracy']
     }));
 
-    if (optimizer == 'adam') {
+    if (optimizer.toLowerCase() == 'adam') {
       model.compile({
         optimizer: tf.train.adam(learningRate),
         loss: lossFunction,
       });
-    } else if (optimizer == 'sgd') {
+    } else if (optimizer.toLowerCase() == 'sgd') {
       model.compile({
         optimizer: tf.train.sgd(learningRate),
         loss: lossFunction,
       });
-    } else if (optimizer == 'rmsprop') {
+    } else if (optimizer.toLowerCase() == 'rmsprop') {
       model.compile({
         optimizer: tf.train.rmsprop(learningRate),
         loss: lossFunction,
@@ -188,10 +185,10 @@ export const buildModel = async ({
   // downloadLink.download = 'model.json';
   // downloadLink.click();
 
-  return modelJSON;
+  //return modelJSON;
 }
 
-const trainModel = async ({
+export const trainModel = async ({
   modelName,
   networkType,
   numberOfInputs,
@@ -204,7 +201,7 @@ const trainModel = async ({
   batchSize,
   epochs,
   testSplit,
-  CNNkernalSize,
+  CNNkernelSize,
   CNNnumberOfHiddenLayers,
   CNNactivationFunction,
   LSTMtimeSteps,
@@ -241,17 +238,17 @@ const trainModel = async ({
     const inputTensor = tf.tensor2d(inputarray, [inputarray.length, numberOfInputs]);
     const outputTensor = tf.tensor2d(outputarray, [outputarray.length, outputLayer.nodes]);
 
-    if (optimizer == 'adam') {
+    if (optimizer.toLowerCase() == 'adam') {
       model.compile({
         optimizer: tf.train.adam(learningRate),
         loss: lossFunction,
       });
-    } else if (optimizer == 'sgd') {
+    } else if (optimizer.toLowerCase() == 'sgd') {
       model.compile({
         optimizer: tf.train.sgd(learningRate),
         loss: lossFunction,
       });
-    } else if (optimizer == 'rmsprop') {
+    } else if (optimizer.toLowerCase() == 'rmsprop') {
       model.compile({
         optimizer: tf.train.rmsprop(learningRate),
         loss: lossFunction,
@@ -259,7 +256,7 @@ const trainModel = async ({
     }
 
     model.fit(inputTensor, outputTensor, {
-      epochs: 1000,
+      epochs: epochs,
       callbacks: {
         onEpochEnd: (epoch, logs) => {
           console.log(`Epoch ${epoch + 1}: loss = ${logs.loss}`);
@@ -270,45 +267,3 @@ const trainModel = async ({
     });
   });
 }
-
-
-const BuildModel = () => {
-  const modelProps = {
-    modelName: 'exampleModel',
-    networkType: 'ANN',
-    numberOfInputs: 2,
-    inputNames: ['input1', 'input2', 'input3', 'input4'],
-    hiddenLayers: [
-      { nodes: 4, activation: 'sigmoid', regularization: { type: 'L2', param: 0.01 } },
-      { nodes: 4, activation: 'sigmoid', regularization: { type: 'Dropout', param: 0.2 } }
-    ],
-    outputLayer: { nodes: 1, activationFunction: 'linear' },
-    lossFunction: 'meanSquaredError',
-    optimizer: 'adam',
-    learningRate: 0.001,
-    batchSize: 32,
-    epochs: 10,
-    testSplit: 0.2,
-    CNNkernalSize: 3,
-    CNNactivationFunction: 'relu',
-    CNNnumberOfHiddenLayers: 2,
-    LSTMtimeSteps: 10,
-    LSTMunits: 11,
-    LSTMfeatures: 100,
-    LSTMnumberOfHiddenLayers: 3,
-    LSTMactivation: 'tanh'
-  };
-
-  useEffect(() => {
-
-    buildModel(modelProps);
-    trainModel(modelProps);
-
-  }, []);
-
-  return (
-    <button onClick={() => buildModel(modelProps)}>Train Model</button>
-  )
-}
-
-export default BuildModel

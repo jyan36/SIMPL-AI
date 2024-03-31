@@ -1,8 +1,8 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import ObjectDetection from '../Aditya/page.jsx'
+import Link from 'next/link';
+import { buildModel, trainModel } from './utils'
 
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,25 +16,28 @@ import {
 const FormComponent = () => {
   // Define state variables for form inputs
   const [modelName, setModelName] = useState('');
-  const [networkType, setNetworkType] = useState('ann');
-  const [numberOfInputs, setNumberOfInputs] = useState('');
+  const [networkType, setNetworkType] = useState('ANN');
+  const [numberOfInputs, setNumberOfInputs] = useState(0);
   const [inputNames, setInputNames] = useState([]);
   const [numberOfHiddenLayers, setNumberOfHiddenLayers] = useState(0);
   const [hiddenLayers, setHiddenLayers] = useState([]);
   const [outputLayer, setOutputLayer] = useState('');
   const [lossFunction, setLossFunction] = useState('');
   const [optimizer, setOptimizer] = useState('');
-  const [learningRate, setLearningRate] = useState('');
-  const [batchSize, setBatchSize] = useState('');
-  const [epochs, setEpochs] = useState('');
-  const [validationSplit, setValidationSplit] = useState('');
-  const [testSplit, setTestSplit] = useState('');
+  const [learningRate, setLearningRate] = useState(0);
+  const [batchSize, setBatchSize] = useState(0);
+  const [epochs, setEpochs] = useState(0);
+  const [validationSplit, setValidationSplit] = useState(0);
+  const [testSplit, setTestSplit] = useState(0);
   const [CNNkernelSize, setCNNkernelSize] = useState(0);
   const [CNNactivationFunction, setCNNactivationFunction] = useState('relu');
   const [CNNnumberOfHiddenLayers, setCNNnumberOfHiddenLayers] = useState(0);
   const [LSTMfeatures, setLSTMfeatures] = useState(0);
   const [LSTMtimeSteps, setLSTMtimesteps] = useState(0);
   const [LSTMunits, setLSTMunits] = useState(0);
+  const [LSTMnumberOfHiddenLayers, setLSTMnumberOfHiddenLayers] = useState(0);
+  const [LSTMactivation, setLSTMactivation] = useState(0);
+
 
   const [hL, setHL] = useState([]);
   const [misc, setMisc] = useState([]);
@@ -45,21 +48,26 @@ const FormComponent = () => {
     setLossFunction(hi);
     let bye = ['SGD'];
     setOptimizer(bye);
+    let oof = ['relu'];
+    setCNNactivationFunction(oof);
+    let t = { nodes: 0, activation: "relu" };
+    setOutputLayer(t);
   }, []);
-  
+
 
   useEffect(() => {
     let hi = [];
-    if (networkType == 'cnn') {
+    if (networkType == 'CNN') {
       hi.push(
         <div><label htmlFor="CNNkernelSize">Number of Kernels:</label>
-        <input
-          type="text"
-          id="name"
-          value={CNNkernelSize}
-          onChange={(e) => setCNNkernelSize(e.target.value)}
-        />
-        <label htmlFor={`cnnAct`}>Activation Function:</label>
+          <input
+            type="number"
+            id="name"
+            value={CNNkernelSize}
+            onChange={(e) => setCNNkernelSize(e.target.value)}
+            style={{ color: 'black' }}
+          />
+          <label htmlFor={`cnnAct`}>Activation Function:</label>
           <DropdownMenu>
             <DropdownMenuTrigger id={`cnnAct`}>{CNNactivationFunction ? CNNactivationFunction : ''}</DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -71,41 +79,65 @@ const FormComponent = () => {
               <DropdownMenuItem onClick={() => handleActivationCNNChange('tanh')}>Tanh</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-         <label htmlFor="CNNkernelSize">Number of Hidden Layers:</label>
-        <input
-          type="text"
-          id="name"
-          value={CNNnumberOfHiddenLayers}
-          onChange={(e) => setCNNnumberOfHiddenLayers(e.target.value)}
-        />
+          <label htmlFor="CNNkernelSize">Number of Hidden Layers:</label>
+          <input
+            type="number"
+            id="name"
+            value={CNNnumberOfHiddenLayers}
+            onChange={(e) => setCNNnumberOfHiddenLayers(e.target.value)}
+            style={{ color: 'black' }}
+          />
         </div>
-        
+
       );
     }
-    else if (networkType == 'rnn') {
+    else if (networkType == 'RNN') {
       hi.push(
         <div><label htmlFor="LSTMfeatures">Number of Features:</label>
-        <input
-          type="text"
-          id="name"
-          value={LSTMfeatures}
-          onChange={(e) => setLSTMfeatures(e.target.value)}
-        />
-        <label htmlFor="LSTMtimeSteps">Number of Timesteps:</label>
-        <input
-          type="text"
-          id="name"
-          value={LSTMtimeSteps}
-          onChange={(e) => setLSTMtimesteps(e.target.value)}
-        />
-        <label htmlFor="LSTMtimeSteps">Number of LSTM Units:</label>
-        <input
-          type="text"
-          id="name"
-          value={LSTMunits}
-          onChange={(e) => setLSTMunits(e.target.value)}
-        />
-        
+          <input
+            type="number"
+            id="name"
+            value={LSTMfeatures}
+            onChange={(e) => setLSTMfeatures(e.target.value)}
+            style={{ color: 'black' }}
+          />
+          <label htmlFor="LSTMtimeSteps">Number of Timesteps:</label>
+          <input
+            type="number"
+            id="name"
+            value={LSTMtimeSteps}
+            onChange={(e) => setLSTMtimesteps(e.target.value)}
+            style={{ color: 'black' }}
+          />
+          <label htmlFor="LSTMtimeSteps">Number of LSTM Units:</label>
+          <input
+            type="number"
+            id="name"
+            value={LSTMunits}
+            onChange={(e) => setLSTMunits(e.target.value)}
+            style={{ color: 'black' }}
+          />
+          <label htmlFor="LSTMnumberOfHiddenLayers">Number of LSTM Hidden Layers:</label>
+          <input
+            type="number"
+            id="name"
+            value={LSTMnumberOfHiddenLayers}
+            onChange={(e) => setLSTMnumberOfHiddenLayers(e.target.value)}
+          />
+
+          <label htmlFor={`lstmAct`}>Activation Function:</label>
+          <DropdownMenu>
+            <DropdownMenuTrigger id={`lstmAct`}>{LSTMactivation ? LSTMactivation : ''}</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleActivationLSTMChange('relu')}>Relu</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationLSTMChange('selu')}>Selu</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationLSTMChange('sigmoid')}>Sigmoid</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationLSTMChange('softmax')}>Softmax</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationLSTMChange('linear')}>Linear</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleActivationLSTMChange('tanh')}>Tanh</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
         </div>
       )
     }
@@ -114,7 +146,53 @@ const FormComponent = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can perform form validation or submit data here
+
+    // buildModel({
+    //   modelName: parseInt(modelName),
+    //   networkType: networkType,
+    //   numberOfInputs: parseInt(numberOfInputs),
+    //   inputNames: inputNames,
+    //   hiddenLayers: hiddenLayers,
+    //   outputLayer: outputLayer,
+    //   lossFunction: lossFunction,
+    //   optimizer: optimizer,
+    //   learningRate: parseInt(learningRate),
+    //   batchSize: parseInt(batchSize),
+    //   epochs: parseInt(epochs),
+    //   testSplit: parseFloat(testSplit),
+    //   CNNkernelSize: parseInt(CNNkernelSize),
+    //   CNNnumberOfHiddenLayers: parseInt(CNNnumberOfHiddenLayers),
+    //   CNNactivationFunction: CNNactivationFunction,
+    //   LSTMtimeSteps: parseInt(LSTMtimeSteps),
+    //   LSTMunits: parseInt(LSTMunits),
+    //   LSTMfeatures: parseInt(LSTMfeatures),
+    //   LSTMnumberOfHiddenLayers: parseInt(LSTMnumberOfHiddenLayers),
+    //   LSTMactivation: LSTMactivation
+    // })
+    // trainModel({
+    //   modelName,
+    //   networkType,
+    //   numberOfInputs,
+    //   inputNames,
+    //   hiddenLayers,
+    //   outputLayer,
+    //   lossFunction,
+    //   optimizer,
+    //   learningRate,
+    //   batchSize,
+    //   epochs,
+    //   testSplit,
+    //   CNNkernelSize,
+    //   CNNnumberOfHiddenLayers,
+    //   CNNactivationFunction,
+    //   LSTMtimeSteps,
+    //   LSTMunits,
+    //   LSTMfeatures,
+    //   LSTMnumberOfHiddenLayers,
+    //   LSTMactivation
+    // })
+
+
     console.log('Form submitted:', { modelName, networkType, numberOfInputs, inputNames, numberOfHiddenLayers, hiddenLayers, outputLayer, lossFunction, optimizer, learningRate, batchSize, epochs, validationSplit, testSplit });
   };
 
@@ -126,11 +204,20 @@ const FormComponent = () => {
     setHiddenLayers(hiddenLayerstemp);
   }, [numberOfHiddenLayers]);
 
+
+
   const handleActivationChange = (index, selectedActivation) => {
     const updatedHiddenLayers = [...hiddenLayers];
     updatedHiddenLayers[index].activation = selectedActivation;
     setHiddenLayers(updatedHiddenLayers);
   };
+
+  const handleActivationLSTMChange = (selectedActivation) => {
+    let updatedLSTM = LSTMactivation;
+    updatedLSTM = selectedActivation;
+    setHiddenLayers(updatedLSTM);
+  };
+
 
   const handleActivationCNNChange = (selectedActivation) => {
     let updatedActivation = CNNactivationFunction;
@@ -139,7 +226,7 @@ const FormComponent = () => {
   };
 
   const handleActivationOutChange = (selectedActivation) => {
-    const updatedOutputLayers = { ... outputLayer};
+    const updatedOutputLayers = { ...outputLayer };
     updatedOutputLayers.activation = selectedActivation;
     setOutputLayer(updatedOutputLayers);
   };
@@ -150,13 +237,13 @@ const FormComponent = () => {
 
   const handleChangeNumberOfNodes = (index, value) => {
     const updatedChange = [...hiddenLayers];
-    updatedChange[index] = value;
+    updatedChange[index].nodes = value;
     setHiddenLayers(updatedChange);
   };
 
   const handleRegularizationType = (index, selectedActivation) => {
     const updatedHiddenLayers = [...hiddenLayers];
-    updatedHiddenLayers[index].activation = selectedActivation;
+    updatedHiddenLayers[index].regularization.type = selectedActivation;
     setHiddenLayers(updatedHiddenLayers);
   };
 
@@ -166,8 +253,6 @@ const FormComponent = () => {
     setHiddenLayers(updatedChange);
   };
 
-  
-
   useEffect(() => {
     let thing = [];
     for (let i = 0; i < numberOfHiddenLayers; i++) {
@@ -175,10 +260,11 @@ const FormComponent = () => {
         <div key={i}>
           <label htmlFor={`numberOfNodes${i}`}>Number of Nodes:</label>
           <input
-            type="text"
+            type="number"
             id="name"
             value={hiddenLayers[i] ? hiddenLayers[i].nodes : ''}
             onChange={(e) => handleChangeNumberOfNodes(i, e.target.value)}
+            style={{ color: 'black' }}
           />
           <label htmlFor={`hiddenLayers${i}`}>Hidden Layers:</label>
           <DropdownMenu>
@@ -202,12 +288,13 @@ const FormComponent = () => {
               <DropdownMenuItem onClick={() => handleRegularizationType(i, 'Dropout')}>Dropout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <label htmlFor={`regularizationParam`}>Regularization Parameters:</label>
+          <label htmlFor={`regularizationParam`}>Regularization Parameter:</label>
           <input
-            type="text"
+            type="number"
             id="name"
             value={hiddenLayers[i]?.regularization ? hiddenLayers[i].regularization.param : ''}
             onChange={(e) => handleRegularizationParam(i, e.target.value)}
+            style={{ color: 'black' }}
           />
         </div>
       );
@@ -255,6 +342,7 @@ const FormComponent = () => {
             id="name"
             value={inputNames[i]}
             onChange={(e) => handleInputChange(i, e.target.value)}
+            style={{ color: 'black' }}
           />
         </div>
       );
@@ -276,7 +364,7 @@ const FormComponent = () => {
         <div>
           <label htmlFor={`lossFunction${i}`}>Loss Function:</label>
           <DropdownMenu>
-            <DropdownMenuTrigger id={`lossFunction${i}`}>{lossFunction[i]? lossFunction[i].charAt(0).toUpperCase() + lossFunction[i].slice(1) : ''}</DropdownMenuTrigger>
+            <DropdownMenuTrigger id={`lossFunction${i}`}>{lossFunction[i] ? lossFunction[i].charAt(0).toUpperCase() + lossFunction[i].slice(1) : ''}</DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleLossFunction(i, 'Mean_Square_Error')}>Mean Square Error</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleLossFunction(i, 'Binary_Crossentropy')}>Binary Crossentropy</DropdownMenuItem>
@@ -303,7 +391,7 @@ const FormComponent = () => {
         <div>
           <label htmlFor={`optimizer${i}`}>Optimizer:</label>
           <DropdownMenu>
-            <DropdownMenuTrigger id={`optimizer${i}`}>{optimizer[i]? optimizer[i].charAt(0).toUpperCase() + optimizer[i].slice(1) : ''}</DropdownMenuTrigger>
+            <DropdownMenuTrigger id={`optimizer${i}`}>{optimizer[i] ? optimizer[i].charAt(0).toUpperCase() + optimizer[i].slice(1) : ''}</DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleOptimizer(i, 'sgd')}>sgd</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleOptimizer(i, 'adam')}>adam</DropdownMenuItem>
@@ -317,130 +405,111 @@ const FormComponent = () => {
 
   return (
     <div>
-      <h1>Network Builder</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="modelName">Model Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={modelName}
-            onChange={(e) => setModelName(e.target.value)}
-          />
+      <header className="bg-black py-4 relative">
+        <div className="container mx-auto px-4 flex justify-between items-center relative">
+          <Link legacyBehavior href="/" passHref>
+            <h1 className="pl-16 text-white text-2xl font-bold">SIMPL-AI</h1>
+          </Link>
+          <nav className="flex space-x-4">
+            <Link legacyBehavior href="/about" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Instructions</a>
+            </Link>
+            <Link legacyBehavior href="/builder" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Network Builder</a>
+            </Link>
+          </nav>
         </div>
-        <div>
-          <label htmlFor="networkType">Network Type:</label>
-          <DropdownMenu>
-            <DropdownMenuTrigger id={`type`}>{networkType ? networkType.charAt(0).toUpperCase() + networkType.charAt(1).toUpperCase() + networkType.charAt(2).toUpperCase(): ''}</DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleTypeChange('ann')}>ANN</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleTypeChange('rnn')}>RNN</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleTypeChange('cnn')}>CNN</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+      </header>
+      <div class="bg-black text-white font-bold">
+        <h1 class="text-8xl font-bold mb-16 ml-4 mt-16">Network Builder</h1>
+        <div className="flex justify-center">
+          <form class="w-1/2">
+            <div class="mb-4">
+              <label for="modelName" class="block mb-2">Model Name:</label>
+              <input type="text" id="modelName" value={modelName} onChange={(e) => setModelName(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            </div>
+            <div class="mb-4">
+              <label for="networkType" class="block mb-2">Network Type:</label>
+              <div class="relative">
+                <DropdownMenu>
+                  <DropdownMenuTrigger id={`type`} class="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">
+                    {networkType ? networkType.charAt(0).toUpperCase() + networkType.slice(1) : ''}
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => handleTypeChange('ANN')}>ANN</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleTypeChange('RNN')}>RNN</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleTypeChange('CNN')}>CNN</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+            <div class="mb-4">
+              <label for="numberOfInputs" class="block mb-2">Number of Inputs:</label>
+              <input type="number" id="numberOfInputs" value={numberOfInputs} onChange={(e) => setNumberOfInputs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            </div>
+            <div class="mb-4">
+              {iN}
+            </div>
+            <div class="mb-4">
+              <label for="numberOfHiddenLayers" class="block mb-2">Number of Hidden Layers:</label>
+              <input type="number" id="numberOfHiddenLayers" value={numberOfHiddenLayers} onChange={(e) => setNumberOfHiddenLayers(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            </div>
+            <div class="mb-4">
+              {hL}
+            </div>
+            <div class="mb-4">
+              <h1 class="text-white font-bold">Output Layer</h1>
+              <label for="outputLayerNodes" class="block mb-2">Number of Nodes:</label>
+              <input type="number" id="outputLayerNodes" value={outputLayer.nodes} onChange={(e) => handleOutputLayerNodesChange(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+              <label for={`outact`} class="block mb-2">Activation Function:</label>
+              <div class="relative">
+                <DropdownMenu>
+                  <DropdownMenuTrigger id={`outact`} class="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">
+                    {outputLayer?.activation ? outputLayer.activation.charAt(0).toUpperCase() + outputLayer.activation.slice(1) : ''}
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => handleActivationOutChange('relu')}>Relu</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleActivationOutChange('selu')}>Selu</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleActivationOutChange('sigmoid')}>Sigmoid</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleActivationOutChange('softmax')}>Softmax</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleActivationOutChange('linear')}>Linear</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleActivationOutChange('tanh')}>Tanh</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+            <div class="mb-4">
+              {lF}
+            </div>
+            <div class="mb-4">
+              {oP}
+            </div>
+            <div class="mb-4">
+              <label for="learningRate" class="block mb-2">Learning Rate:</label>
+              <input type="number" id="learningRate" value={learningRate} onChange={(e) => setLearningRate(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            </div>
+            <div class="mb-4">
+              <label for="batchSize" class="block mb-2">Batch Size:</label>
+              <input type="number" id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            </div>
+            <div class="mb-4">
+              <label for="epochs" class="block mb-2">Epochs:</label>
+              <input type="number" id="epochs" value={epochs} onChange={(e) => setEpochs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            </div>
+            <div class="mb-4">
+              <label for="validationSplit" class="block mb-2">Validation Split:</label>
+              <input type="number" id="validationSplit" value={validationSplit} onChange={(e) => setValidationSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            </div>
+            <div class="mb-4">
+              <label for="testSplit" class="block mb-2">Test Split:</label>
+              <input type="number" id="testSplit" value={testSplit} onChange={(e) => setTestSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            </div>
+            <div class="mb-4">
+              {misc}
+            </div>
+            <button onSubmit={handleSubmit} class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>          </form>
         </div>
-        <div>
-          <label htmlFor="numberOfInputs">Number of Inputs:</label>
-          <input
-            type="text"
-            id="name"
-            value={numberOfInputs}
-            onChange={(e) => setNumberOfInputs(e.target.value)}
-          />
-        </div>
-        <div>
-          {iN}
-        </div>
-        <div>
-          <label htmlFor="numberOfHiddenLayers">Number of Hidden Layers:</label>
-          <input
-            type="text"
-            id="name"
-            value={numberOfHiddenLayers}
-            onChange={(e) => setNumberOfHiddenLayers(e.target.value)}
-          />
-        </div>
-        <div>
-          {hL}
-        </div>
-        <div>
-          <h1>Output Layer</h1>
-          <label htmlFor="outputLayer">Number of Nodes</label>
-          <input
-            type="text"
-            id="name"
-            value={outputLayer.nodes}
-            onChange={(e) => handleOutputLayerNodesChange(e.target.value)}
-          />
-          <label htmlFor={`outact`}>Activation Function</label>
-          <DropdownMenu>
-            <DropdownMenuTrigger id={`outact`}>{outputLayer ? outputLayer.activation.charAt(0).toUpperCase() + outputLayer.activation.substring(1) : ''}</DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleActivationOutChange('relu')}>Relu</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleActivationOutChange('selu')}>Selu</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleActivationOutChange('sigmoid')}>Sigmoid</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleActivationOutChange('softmax')}>Softmax</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleActivationOutChange('linear')}>Linear</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleActivationOutChange('tanh')}>Tanh</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        <div>
-          {lF}
-        </div>
-        <div>
-          {oP}
-        </div>
-        <div>
-          <label htmlFor="learningRate">Learning Rate:</label>
-          <input
-            type="text"
-            id="name"
-            value={learningRate}
-            onChange={(e) => setLearningRate(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="batchSize">Batch Size:</label>
-          <input
-            type="text"
-            id="name"
-            value={batchSize}
-            onChange={(e) => setBatchSize(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="epochs">Epochs:</label>
-          <input
-            type="text"
-            id="name"
-            value={epochs}
-            onChange={(e) => setEpochs(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="validationSplit">Validation Split:</label>
-          <input
-            type="text"
-            id="name"
-            value={validationSplit}
-            onChange={(e) => setValidationSplit(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="testSplit">Test Split:</label>
-          <input
-            type="text"
-            id="name"
-            value={testSplit}
-            onChange={(e) => setTestSplit(e.target.value)}
-          />
-        </div>
-        <div>
-          {misc}
-        </div>
-        <button type="submit">Submit</button>
-      </form>
+      </div>
     </div>
   );
 };

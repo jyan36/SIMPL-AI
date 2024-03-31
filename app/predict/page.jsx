@@ -2,11 +2,29 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { input } from '@tensorflow/tfjs';
+import * as tf from '@tensorflow/tfjs'
+
 
 const Predict = () => {
     const [inputParams, setInputParams] = useState(null);
     const [inputList, setInputList] = useState({});
+    const [prediction, setPrediction] = useState('');
+
+    const makePrediction = async () => {
+        const model = await tf.loadLayersModel('indexeddb://my-model-2');
+
+        let realInputList = Object.values(inputList);
+        console.log(realInputList)
+
+        //realInputList = realInputList.map(str => parseInt(str));
+        realInputList = [realInputList];
+
+        let inputData = tf.tensor2d(realInputList);
+        
+
+        const modelPrediction = model.predict(inputData);
+        setPrediction(modelPrediction);
+    }
 
     useEffect(() => {
         const JSONmodel = localStorage.getItem('model-params');
@@ -37,6 +55,8 @@ const Predict = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(inputList);
+
+        makePrediction();
     };
 
 
@@ -85,7 +105,10 @@ const Predict = () => {
                     </div>
                 </div>
 
-                <div className='basis-7/12 h-full w-full bg-blue-500 rounded-lg'></div>
+                <div className='basis-7/12 h-full w-full bg-blue-500 rounded-lg flex flex-col items-center justify-center gap-2'>
+                    <div className='text-white text-4xl'>The model's prediction is ...</div>
+                    {prediction ? <div className='text-white text-4xl'>{prediction}</div> : <div></div> }
+                </div>
 
             </div>
         </div>

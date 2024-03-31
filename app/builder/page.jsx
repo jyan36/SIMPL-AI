@@ -417,12 +417,6 @@ const FormComponent = () => {
             <Link legacyBehavior href="/builder" passHref>
               <a className="text-white pl-16 hover:text-gray-300">Network Builder</a>
             </Link>
-            <Link legacyBehavior href="/predictions" passHref>
-              <a className="text-white pl-16 hover:text-gray-300">Predictions</a>
-            </Link>
-            <Link legacyBehavior href="/terminal" passHref>
-              <a className="text-white pl-16 pr-16 hover:text-gray-300">Terminal</a>
-            </Link>
           </nav>
         </div>
       </header>

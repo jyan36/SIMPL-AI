@@ -248,7 +248,7 @@ const FormComponent = () => {
   const handleActivationLSTMChange = (selectedActivation) => {
     let updatedLSTM = LSTMactivation;
     updatedLSTM = selectedActivation;
-    setHandleActivationLSTMChange(updatedLSTM);
+    setLSTMactivation(updatedLSTM);
   };
 
 
@@ -453,19 +453,19 @@ const FormComponent = () => {
           </nav>
         </div>
       </header>
-      <div class="bg-black text-white font-bold">
-        <h1 class="text-8xl font-bold mb-16 ml-4 mt-16">Network Builder</h1>
+      <div className="bg-black text-white font-bold">
+        <h1 className="text-8xl font-bold mb-16 ml-4 mt-16">Network Builder</h1>
         <div className="flex justify-center">
-          <form class="w-1/2" onSubmit={handleSubmit}>
-            <div class="mb-4">
-              <label for="modelName" class="block mb-2">Model Name:</label>
-              <input type="text" id="modelName" value={modelName} onChange={(e) => setModelName(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+          <form className="w-1/2" onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label for="modelName" className="block mb-2">Model Name:</label>
+              <input type="text" id="modelName" value={modelName} onChange={(e) => setModelName(e.target.value)} className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
-            <div class="mb-4">
-              <label for="networkType" class="block mb-2">Network Type:</label>
-              <div class="relative">
+            <div className="mb-4">
+              <label for="networkType" className="block mb-2">Network Type:</label>
+              <div className="relative">
                 <DropdownMenu>
-                  <DropdownMenuTrigger id={`type`} class="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">
+                  <DropdownMenuTrigger id={`type`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">
                     {networkType ? networkType.charAt(0).toUpperCase() + networkType.slice(1) : ''}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
@@ -476,28 +476,28 @@ const FormComponent = () => {
                 </DropdownMenu>
               </div>
             </div>
-            <div class="mb-4">
-              <label for="numberOfInputs" class="block mb-2">Number of Inputs:</label>
-              <input type="number" id="numberOfInputs" value={numberOfInputs} onChange={(e) => setNumberOfInputs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            <div className="mb-4">
+              <label for="numberOfInputs" className="block mb-2">Number of Inputs:</label>
+              <input type="number" id="numberOfInputs" value={numberOfInputs} onChange={(e) => setNumberOfInputs(e.target.value)} className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
-            <div class="mb-4">
+            <div className="mb-4">
               {iN}
             </div>
-            <div class="mb-4">
-              <label for="numberOfHiddenLayers" class="block mb-2">Number of Hidden Layers:</label>
-              <input type="number" id="numberOfHiddenLayers" value={numberOfHiddenLayers} onChange={(e) => setNumberOfHiddenLayers(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            <div className="mb-4">
+              <label for="numberOfHiddenLayers" className="block mb-2">Number of Hidden Layers:</label>
+              <input type="number" id="numberOfHiddenLayers" value={numberOfHiddenLayers} onChange={(e) => setNumberOfHiddenLayers(e.target.value)} className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
-            <div class="mb-4">
+            <div className="mb-4">
               {hL}
             </div>
-            <div class="mb-4">
-              <h1 class="text-white font-bold">Output Layer</h1>
-              <label for="outputLayerNodes" class="block mb-2">Number of Nodes:</label>
-              <input type="number" id="outputLayerNodes" value={outputLayer.nodes} onChange={(e) => handleOutputLayerNodesChange(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
-              <label for={`outact`} class="block mb-2">Activation Function:</label>
-              <div class="relative">
+            <div className="mb-4">
+              <h1 className="text-white font-bold">Output Layer</h1>
+              <label for="outputLayerNodes" className="block mb-2">Number of Nodes:</label>
+              <input type="number" id="outputLayerNodes" value={outputLayer.nodes} onChange={(e) => handleOutputLayerNodesChange(e.target.value)} className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+              <label for={`outact`} className="block mb-2">Activation Function:</label>
+              <div className="relative">
                 <DropdownMenu>
-                  <DropdownMenuTrigger id={`outact`} class="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">
+                  <DropdownMenuTrigger id={`outact`} className="px-4 py-2 rounded border border-gray-400 bg-transparent text-black">
                     {outputLayer?.activation ? outputLayer.activation.charAt(0).toUpperCase() + outputLayer.activation.slice(1) : ''}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
@@ -511,36 +511,36 @@ const FormComponent = () => {
                 </DropdownMenu>
               </div>
             </div>
-            <div class="mb-4">
+            <div className="mb-4">
               {lF}
             </div>
-            <div class="mb-4">
+            <div className="mb-4">
               {oP}
             </div>
-            <div class="mb-4">
-              <label for="learningRate" class="block mb-2">Learning Rate:</label>
-              <input type="number" id="learningRate" value={learningRate} onChange={(e) => setLearningRate(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            <div className="mb-4">
+              <label for="learningRate" className="block mb-2">Learning Rate:</label>
+              <input type="number" id="learningRate" value={learningRate} onChange={(e) => setLearningRate(e.target.value)} className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
-            <div class="mb-4">
-              <label for="batchSize" class="block mb-2">Batch Size:</label>
-              <input type="number" id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            <div className="mb-4">
+              <label for="batchSize" className="block mb-2">Batch Size:</label>
+              <input type="number" id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)} className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
-            <div class="mb-4">
-              <label for="epochs" class="block mb-2">Epochs:</label>
-              <input type="number" id="epochs" value={epochs} onChange={(e) => setEpochs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            <div className="mb-4">
+              <label for="epochs" className="block mb-2">Epochs:</label>
+              <input type="number" id="epochs" value={epochs} onChange={(e) => setEpochs(e.target.value)} className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
-            <div class="mb-4">
-              <label for="validationSplit" class="block mb-2">Validation Split:</label>
-              <input type="number" id="validationSplit" value={validationSplit} onChange={(e) => setValidationSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            <div className="mb-4">
+              <label for="validationSplit" className="block mb-2">Validation Split:</label>
+              <input type="number" id="validationSplit" value={validationSplit} onChange={(e) => setValidationSplit(e.target.value)} className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
-            <div class="mb-4">
-              <label for="testSplit" class="block mb-2">Test Split:</label>
-              <input type="number" id="testSplit" value={testSplit} onChange={(e) => setTestSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
+            <div className="mb-4">
+              <label for="testSplit" className="block mb-2">Test Split:</label>
+              <input type="number" id="testSplit" value={testSplit} onChange={(e) => setTestSplit(e.target.value)} className="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-black" style={{ color: 'black' }} />
             </div>
-            <div class="mb-4">
+            <div className="mb-4">
               {misc}
             </div>
-            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
+            <button type="submit" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
           </form>
         </div>
       </div>

@@ -1,6 +1,8 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import ObjectDetection from '../Aditya/page.jsx'
+import Link from 'next/link';
+
 
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 import {
@@ -319,130 +321,117 @@ const FormComponent = () => {
 
   return (
     <div>
-      <h1>Network Builder</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="modelName">Model Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={modelName}
-            onChange={(e) => setModelName(e.target.value)}
-          />
+      <header className="bg-black py-4 relative">
+        <div className="container mx-auto px-4 flex justify-between items-center relative">
+          <Link legacyBehavior href="/" passHref>
+            <h1 className="pl-16 text-white text-2xl font-bold">SIMPL-AI</h1>
+          </Link>
+          <nav className="flex space-x-4">
+            <Link legacyBehavior href="/about" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Instructions</a>
+            </Link>
+            <Link legacyBehavior href="/builder" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Network Builder</a>
+            </Link>
+            <Link legacyBehavior href="/predictions" passHref>
+              <a className="text-white pl-16 hover:text-gray-300">Predictions</a>
+            </Link>
+            <Link legacyBehavior href="/terminal" passHref>
+              <a className="text-white pl-16 pr-16 hover:text-gray-300">Terminal</a>
+            </Link>
+          </nav>
         </div>
-        <div>
-          <label htmlFor="networkType">Network Type:</label>
-          <DropdownMenu>
-            <DropdownMenuTrigger id={`type`}>{networkType ? networkType.charAt(0).toUpperCase() + networkType.charAt(1).toUpperCase() + networkType.charAt(2).toUpperCase(): ''}</DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleTypeChange('ann')}>ANN</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleTypeChange('rnn')}>RNN</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleTypeChange('cnn')}>CNN</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+      </header>
+      <h1 class="text-center mb-8">Network Builder</h1>
+
+<div class="flex justify-center">
+    <form class="w-1/2" onSubmit={handleSubmit}>
+        <div class="mb-4">
+            <label for="modelName" class="block mb-2">Model Name:</label>
+            <input type="text" id="modelName" value={modelName} onChange={(e) => setModelName(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white"/>
         </div>
-        <div>
-          <label htmlFor="numberOfInputs">Number of Inputs:</label>
-          <input
-            type="text"
-            id="name"
-            value={numberOfInputs}
-            onChange={(e) => setNumberOfInputs(e.target.value)}
-          />
+        <div class="mb-4">
+            <label for="networkType" class="block mb-2">Network Type:</label>
+            <div class="relative">
+                <DropdownMenu>
+                    <DropdownMenuTrigger id={`type`} class="px-4 py-2 rounded border border-gray-400 bg-transparent text-white">
+                        {networkType ? networkType.charAt(0).toUpperCase() + networkType.slice(1) : ''}
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem onClick={() => handleTypeChange('ann')}>ANN</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleTypeChange('rnn')}>RNN</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleTypeChange('cnn')}>CNN</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
         </div>
-        <div>
-          {iN}
+        <div class="mb-4">
+            <label for="numberOfInputs" class="block mb-2">Number of Inputs:</label>
+            <input type="text" id="numberOfInputs" value={numberOfInputs} onChange={(e) => setNumberOfInputs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white"/>
         </div>
-        <div>
-          <label htmlFor="numberOfHiddenLayers">Number of Hidden Layers:</label>
-          <input
-            type="text"
-            id="name"
-            value={numberOfHiddenLayers}
-            onChange={(e) => setNumberOfHiddenLayers(e.target.value)}
-          />
+        <div class="mb-4">
+            {iN}
         </div>
-        <div>
-          {hL}
+        <div class="mb-4">
+            <label for="numberOfHiddenLayers" class="block mb-2">Number of Hidden Layers:</label>
+            <input type="text" id="numberOfHiddenLayers" value={numberOfHiddenLayers} onChange={(e) => setNumberOfHiddenLayers(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white"/>
         </div>
-        <div>
-          <h1>Output Layer</h1>
-          <label htmlFor="outputLayer">Number of Nodes</label>
-          <input
-            type="text"
-            id="name"
-            value={outputLayer.nodes}
-            onChange={(e) => handleOutputLayerNodesChange(e.target.value)}
-          />
-          <label htmlFor={`outact`}>Activation Function</label>
-          <DropdownMenu>
-            <DropdownMenuTrigger id={`outact`}>{outputLayer?.activation ? outputLayer.activation.charAt(0).toUpperCase() + outputLayer.activation.substring(1) : ''}</DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => handleActivationOutChange('relu')}>Relu</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleActivationOutChange('selu')}>Selu</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleActivationOutChange('sigmoid')}>Sigmoid</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleActivationOutChange('softmax')}>Softmax</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleActivationOutChange('linear')}>Linear</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleActivationOutChange('tanh')}>Tanh</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div class="mb-4">
+            {hL}
         </div>
-        <div>
-          {lF}
+        <div class="mb-4">
+            <h1 class="text-white font-bold">Output Layer</h1>
+            <label for="outputLayerNodes" class="block mb-2">Number of Nodes:</label>
+            <input type="text" id="outputLayerNodes" value={outputLayer.nodes} onChange={(e) => handleOutputLayerNodesChange(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white"/>
+            <label for={`outact`} class="block mb-2">Activation Function:</label>
+            <div class="relative">
+                <DropdownMenu>
+                    <DropdownMenuTrigger id={`outact`} class="px-4 py-2 rounded border border-gray-400 bg-transparent text-white">
+                        {outputLayer?.activation ? outputLayer.activation.charAt(0).toUpperCase() + outputLayer.activation.slice(1) : ''}
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem onClick={() => handleActivationOutChange('relu')}>Relu</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleActivationOutChange('selu')}>Selu</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleActivationOutChange('sigmoid')}>Sigmoid</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleActivationOutChange('softmax')}>Softmax</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleActivationOutChange('linear')}>Linear</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleActivationOutChange('tanh')}>Tanh</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
         </div>
-        <div>
-          {oP}
+        <div class="mb-4">
+            {lF}
         </div>
-        <div>
-          <label htmlFor="learningRate">Learning Rate:</label>
-          <input
-            type="text"
-            id="name"
-            value={learningRate}
-            onChange={(e) => setLearningRate(e.target.value)}
-          />
+        <div class="mb-4">
+            {oP}
         </div>
-        <div>
-          <label htmlFor="batchSize">Batch Size:</label>
-          <input
-            type="text"
-            id="name"
-            value={batchSize}
-            onChange={(e) => setBatchSize(e.target.value)}
-          />
+        <div class="mb-4">
+            <label for="learningRate" class="block mb-2">Learning Rate:</label>
+            <input type="text" id="learningRate" value={learningRate} onChange={(e) => setLearningRate(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white"/>
         </div>
-        <div>
-          <label htmlFor="epochs">Epochs:</label>
-          <input
-            type="text"
-            id="name"
-            value={epochs}
-            onChange={(e) => setEpochs(e.target.value)}
-          />
+        <div class="mb-4">
+            <label for="batchSize" class="block mb-2">Batch Size:</label>
+            <input type="text" id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white"/>
         </div>
-        <div>
-          <label htmlFor="validationSplit">Validation Split:</label>
-          <input
-            type="text"
-            id="name"
-            value={validationSplit}
-            onChange={(e) => setValidationSplit(e.target.value)}
-          />
+        <div class="mb-4">
+            <label for="epochs" class="block mb-2">Epochs:</label>
+            <input type="text" id="epochs" value={epochs} onChange={(e) => setEpochs(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white"/>
         </div>
-        <div>
-          <label htmlFor="testSplit">Test Split:</label>
-          <input
-            type="text"
-            id="name"
-            value={testSplit}
-            onChange={(e) => setTestSplit(e.target.value)}
-          />
+        <div class="mb-4">
+            <label for="validationSplit" class="block mb-2">Validation Split:</label>
+            <input type="text" id="validationSplit" value={validationSplit} onChange={(e) => setValidationSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white"/>
         </div>
-        <div>
-          {misc}
+        <div class="mb-4">
+            <label for="testSplit" class="block mb-2">Test Split:</label>
+            <input type="text" id="testSplit" value={testSplit} onChange={(e) => setTestSplit(e.target.value)} class="w-full px-4 py-2 rounded border border-gray-400 bg-transparent text-white"/>
         </div>
-        <button type="submit">Submit</button>
-      </form>
+        <div class="mb-4">
+            {misc}
+        </div>
+        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Submit</button>
+    </form>
+</div>
     </div>
   );
 };
